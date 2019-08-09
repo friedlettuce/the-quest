@@ -8,13 +8,16 @@ class Knight:
         self.screen = screen
         self.game_settings = game_settings
 
-        self.image = pygame.transform.scale2x(pygame.image.load(
-            '../resources/knight/knight_f_idle_anim_f0.png'))
+        self.image = pygame.image.load(
+            '../resources/knight/knight_f_idle_anim_f0.png')
+        # self.image = pygame.transform.scale2x(self.image)
+        self.image = pygame.transform.scale(self.image, (24, 42))
+
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
 
-        self.rect.centerx = self.screen_rect.centerx / 2
-        self.rect.bottom = self.screen_rect.bottom - 58
+        self.rect.centerx = self.screen_rect.centerx / 3
+        self.rect.bottom = self.screen_rect.bottom - 32
 
         self.center = float(self.rect.centerx)
 
@@ -35,11 +38,18 @@ class Knight:
         for i in range(4):
             frame_img = '../resources/knight/'
 
-            # Removed pygame.transform.scale2x
-            self.idle_frames_r.append(pygame.transform.scale2x(pygame.image.load
-                (frame_img + 'knight_f_idle_anim_f' + str(i) + '.png')))
-            self.run_frames_f.append(pygame.transform.scale2x(pygame.image.load
-                (frame_img + 'knight_f_run_anim_f' + str(i) + '.png')))
+            # Loads and resizes for idle frames facing right
+            temp_frame = pygame.image.load(
+                frame_img + 'knight_f_idle_anim_f' + str(i) + '.png')
+            temp_frame = pygame.transform.scale(temp_frame, (24, 42))
+            self.idle_frames_r.append(temp_frame)
+            # self.idle_frames_r[i] = pygame.transform.scale2x(self.idle_frames_r[i])
+
+            temp_frame = pygame.image.load(
+                frame_img + 'knight_f_run_anim_f' + str(i) + '.png')
+            temp_frame = pygame.transform.scale(temp_frame, (24, 42))
+            self.run_frames_f.append(temp_frame)
+            # self.run_frames_f[i] = pygame.transform.scale2x(self.run_frames_f[i])
 
         for img in self.run_frames_f:
             self.run_frames_b.append(pygame.transform.flip(img, True, False))

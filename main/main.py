@@ -17,7 +17,7 @@ def run_game():
     pygame.display.set_caption("Dungeon Capture")
 
     forrest = Background(
-        game_settings, screen, '../resources/backgrounds/country.png')
+        game_settings, screen, '../resources/backgrounds/forest3.png')
 
     player = Knight(game_settings, screen)
 
