@@ -1,5 +1,6 @@
 import pygame
 
+from sword import Sword
 
 class Knight:
 
@@ -27,6 +28,8 @@ class Knight:
         self.run_frames_f = []
         self.run_frames_b = []
 
+        self.weapon = Sword(screen, self.rect)
+
         # Stores frames for knight
         for i in range(4):
             frame_img = '../resources/knight/'
@@ -49,12 +52,14 @@ class Knight:
 
             if self.rect.centerx < self.screen_rect.width - 16:
                 self.center += self.game_settings.player_speed
+                self.weapon.center += self.game_settings.player_speed
 
         elif self.moving_left:
             self.image = self.run_frames_b[self.frame]
 
             if self.rect.centerx > 17:
                 self.center -= self.game_settings.player_speed
+                self.weapon.center -= self.game_settings.player_speed
 
         elif self.facing_right is False:
             self.image = self.idle_frames_l[self.frame]
@@ -67,4 +72,5 @@ class Knight:
         self.frame %= self.game_settings.anicycle
 
     def blitme(self):
+        self.weapon.blitme()
         self.screen.blit(self.image, self.rect)

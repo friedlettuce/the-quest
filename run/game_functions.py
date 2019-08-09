@@ -10,8 +10,10 @@ def check_events(player):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.moving_right = True
+                player.weapon.face_right()
             elif event.key == pygame.K_LEFT:
                 player.moving_left = True
+                player.weapon.face_left()
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
