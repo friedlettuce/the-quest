@@ -29,6 +29,7 @@ class Knight:
         self.run_frames_b = []
 
         self.weapon = Sword(screen, self.rect)
+        self.toggle_weapon = False
 
         # Stores frames for knight
         for i in range(4):
@@ -44,6 +45,9 @@ class Knight:
             self.run_frames_b.append(pygame.transform.flip(img, True, False))
         for img in self.idle_frames_r:
             self.idle_frames_l.append(pygame.transform.flip(img, True, False))
+
+    def use_weapon(self):
+        self.weapon.using = True
 
     def update(self):
 
@@ -71,6 +75,9 @@ class Knight:
         self.frame += 1
         self.frame %= self.game_settings.anicycle
 
+        self.weapon.update(self.facing_right)
+
     def blitme(self):
-        self.weapon.blitme()
+        if self.toggle_weapon:
+            self.weapon.blitme()
         self.screen.blit(self.image, self.rect)
