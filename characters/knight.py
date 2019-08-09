@@ -1,6 +1,6 @@
 import pygame
 
-from sword import Sword
+from weapons.sword import Sword
 
 class Knight:
 

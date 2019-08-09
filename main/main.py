@@ -4,7 +4,7 @@ import game_functions as gf
 
 from background import Background
 
-from knight import Knight
+from characters.knight import Knight
 
 
 def run_game():
