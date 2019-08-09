@@ -7,7 +7,8 @@ class Sword:
         self.screen = screen
 
         self.image_r = pygame.transform.scale2x(
-            pygame.image.load('../resources/items/weapon/anime_sword.png'))
+            pygame.image.load(
+                '../resources/items/weapon/anime_sword.png'))
         self.image_l = pygame.transform.flip(self.image_r, True, False)
 
         self.rotation = 45
