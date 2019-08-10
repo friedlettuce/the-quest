@@ -9,4 +9,10 @@ class Settings:
         self.fps = 15
         self.anicycle = 4
 
+        self.floor = 32
+
         self.player_speed = 5
+        self.player_startx = -50
+
+        self.mob_speed = 3
+        self.mob_startx = 40

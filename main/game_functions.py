@@ -24,12 +24,13 @@ def check_events(player):
                 player.moving_left = False
 
 
-def update_screen(game_settings, screen, clock, forrest, player):
+def update_screen(game_settings, screen, clock, forrest, mobs):
 
     screen.fill(game_settings.bg_color)
 
     forrest.blitme()
-    player.blitme()
+    for mob in mobs:
+        mob.blitme()
 
     pygame.display.flip()
     clock.tick(game_settings.fps)

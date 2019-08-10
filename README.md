@@ -1,6 +1,7 @@
 ## Medieval SideScroller
 
 ### TODO
-- Make sword follow knight
-- Make rotate in respect to handle
-- Add rotation for strike
+- Add health
+- Add collision and damage from mobs
+- Add collision and damage from hero weapons
+

@@ -3,7 +3,7 @@ from settings import Settings
 import game_functions as gf
 
 from background import Background
-import heroes
+import characters
 
 
 def character_creation():
@@ -25,6 +25,7 @@ def character_creation():
 
 def run_game():
     char_select, weapon = character_creation()
+    mobs = []
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -38,17 +39,23 @@ def run_game():
         game_settings, screen, '../resources/backgrounds/forest3.png')
 
     if char_select == 'wizard':
-        player = heroes.Wizard(game_settings, screen, weapon)
+        player = characters.Wizard(game_settings, screen, weapon)
     elif char_select == 'elf':
-        player = heroes.Elf(game_settings, screen, weapon)
+        player = characters.Elf(game_settings, screen, weapon)
+    elif char_select == 'big_demon':
+        player = characters.BigDemon(game_settings, screen, weapon)
     else:
-        player = heroes.Knight(game_settings, screen, weapon)
+        player = characters.Knight(game_settings, screen, weapon)
+
+    mobs.append(player)
+    mobs.append(characters.BigDemon(game_settings, screen))
 
     while True:
 
         gf.check_events(player)
-        player.update()
-        gf.update_screen(game_settings, screen, clock, forrest, player)
+        for mob in mobs:
+            mob.update()
+        gf.update_screen(game_settings, screen, clock, forrest, mobs)
 
 
 run_game()
