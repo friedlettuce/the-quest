@@ -1,11 +1,13 @@
 import pygame
+from pygame.sprite import Sprite
 
 from weapon import KnightWeapon, WizardWeapon, ElfWeapon
 
 
-class Player:
+class Player(Sprite):
 
     def __init__(self, game_settings, screen, path):
+        super().__init__()
         self.screen = screen
         self.game_settings = game_settings
         self.speed = game_settings.player_speed
@@ -14,6 +16,7 @@ class Player:
         self.moving_right = False
         self.moving_left = False
         self.facing_right = True
+        self.collision = False
 
         self.image = ''
         self.frame = 0
@@ -26,6 +29,11 @@ class Player:
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         self.center = 0
+        self.mask = pygame.mask.from_surface(self.image)
+
+        self.npc = True
+        self.hp = 10
+        self.damage = 0
 
     def load_frames(self):
         self.image = pygame.image.load(
@@ -67,15 +75,20 @@ class Player:
         self.moving_right = self.facing_right = False
         self.moving_left = True
 
-    def update(self):
+    def check_collision(self, sprite):
+        if pygame.sprite.collide_mask(self, sprite):
+            self.collision = True
 
-        if self.moving_right:
+    def update(self):
+        super().update()
+
+        if self.moving_right and not self.collision:
             self.image = self.run_frames_f[self.frame]
 
             if self.rect.centerx < self.screen_rect.width - 16:
                 self.center += self.speed
 
-        elif self.moving_left:
+        elif self.moving_left and not self.collision:
             self.image = self.run_frames_b[self.frame]
 
             if self.rect.centerx > 17:
@@ -90,12 +103,15 @@ class Player:
         self.rect.centerx = self.center
         self.frame += 1
         self.frame %= self.game_settings.anicycle
+        self.mask = pygame.mask.from_surface(self.image)
+        self.collision = False
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
 
 
 class Hero(Player):
+
     def __init__(self, game_settings, screen, hero):
         path = '../resources/' + hero + '/' + hero + '_m'
         super().__init__(game_settings, screen, path)
@@ -104,6 +120,7 @@ class Hero(Player):
         self.rect.bottom = self.screen_rect.bottom - game_settings.floor
         self.center = float(self.rect.centerx)
 
+        self.npc = False
         self.weapon = ''
 
     def left(self):
@@ -130,9 +147,11 @@ class Hero(Player):
 class Knight(Hero):
 
     def __init__(self, game_settings, screen, weapon):
-        super().__init__(game_settings, screen, 'knight')
+        self.name = 'knight'
+        super().__init__(game_settings, screen, self.name)
+        self.hp = 20
 
-        if weapon == 'ks' or weapon == 'bh' or weapon == 'ks':
+        if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
             self.weapon = KnightWeapon(screen, self.rect, weapon)
         else:
             self.weapon = KnightWeapon(screen, self.rect)
@@ -141,7 +160,9 @@ class Knight(Hero):
 class Wizard(Hero):
 
     def __init__(self, game_settings, screen, weapon):
-        super().__init__(game_settings, screen, 'wizard')
+        self.name = 'wizard'
+        super().__init__(game_settings, screen, self.name)
+        self.hp = 10
 
         if weapon == 'g' or weapon == 'r':
             self.weapon = WizardWeapon(screen, self.rect, weapon)
@@ -157,7 +178,9 @@ class Wizard(Hero):
 class Elf(Hero):
 
     def __init__(self, game_settings, screen, weapon):
-        super().__init__(game_settings, screen, 'elf')
+        self.name = 'elf'
+        super().__init__(game_settings, screen, self.name)
+        self.hp = 15
 
         if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
             self.weapon = ElfWeapon(screen, self.rect, weapon)
@@ -177,15 +200,45 @@ class Mob(Player):
 
         self.speed = game_settings.mob_speed
 
-        self.rect.centerx = self.screen_rect.width - game_settings.mob_startx
+        self.rect.left = self.screen_rect.width
         self.rect.bottom = self.screen_rect.bottom - game_settings.floor
         self.center = float(self.rect.centerx)
 
         self.left()
 
+        self.npc = True
+
+    def check_collision(self, sprite):
+        if pygame.sprite.collide_mask(self, sprite):
+            self.collision = True
+            sprite.hp -= self.damage
+            print(sprite.name, 'hit')
+
+    def update(self, player):
+        super().update()
+
+        if self.rect.centerx <= 17 and not self.collision:
+            self.center -= self.speed
+
 
 class BigDemon(Mob):
 
     def __init__(self, game_settings, screen):
+        self.name = 'big demon'
         path = '../resources/' + 'demons/' + 'big_demon' + '/' + 'big_demon'
         super().__init__(game_settings, screen, path)
+
+        self.hp = game_settings.bigDemonHP
+        self.damage = self.bigDemonDamage
+
+
+class Imp(Mob):
+
+    def __init__(self, game_settings, screen):
+        self.name = 'imp'
+        path = '../resources/' + 'demons/' + 'imp' + '/' + 'imp'
+        super().__init__(game_settings, screen, path)
+
+        self.hp = game_settings.impHP
+        self.damage = game_settings.impDamage
+

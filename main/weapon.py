@@ -1,8 +1,10 @@
 import pygame
+from pygame.sprite import Sprite
 
 
-class Weapon:
+class Weapon(Sprite):
     def __init__(self, screen, rect, weapon):
+        super().__init__()
         self.screen = screen
         self.xoffset = 15
         self.rotation = 45

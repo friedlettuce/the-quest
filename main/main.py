@@ -1,4 +1,6 @@
 import sys, pygame
+from pygame.sprite import Group
+
 from settings import Settings
 import game_functions as gf
 
@@ -25,7 +27,8 @@ def character_creation():
 
 def run_game():
     char_select, weapon = character_creation()
-    mobs = []
+    player = ''
+    mobs = Group()
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -42,20 +45,19 @@ def run_game():
         player = characters.Wizard(game_settings, screen, weapon)
     elif char_select == 'elf':
         player = characters.Elf(game_settings, screen, weapon)
-    elif char_select == 'big_demon':
-        player = characters.BigDemon(game_settings, screen, weapon)
     else:
         player = characters.Knight(game_settings, screen, weapon)
 
-    mobs.append(player)
-    mobs.append(characters.BigDemon(game_settings, screen))
-
     while True:
 
-        gf.check_events(player)
-        for mob in mobs:
-            mob.update()
-        gf.update_screen(game_settings, screen, clock, forrest, mobs)
+        gf.check_events(player, mobs)
+
+        for mob in mobs.sprites():
+            player.check_collision(mob)
+        player.update()
+        gf.update_mobs(game_settings, screen, mobs, player)
+
+        gf.update_screen(game_settings, screen, clock, forrest, player, mobs)
 
 
 run_game()

@@ -1,7 +1,8 @@
 import sys, pygame
+import characters
 
 
-def check_events(player):
+def check_events(player, mobs):
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -24,13 +25,34 @@ def check_events(player):
                 player.moving_left = False
 
 
-def update_screen(game_settings, screen, clock, forrest, mobs):
+def update_mobs(game_settings, screen, mobs, player):
+    # Adding mobs
+    if len(mobs) == 0:
+        mobs.add(characters.Imp(game_settings, screen))
+
+    # Updating mobs
+    for mob in mobs.sprites():
+        mob.check_collision(player)
+        mob.update(player)
+    #mobs.update(player)
+
+    for mob in mobs.copy():
+        if mob.rect.right <= 0:
+            mobs.remove(mob)
+
+
+def update_screen(game_settings, screen, clock, forrest, player, mobs):
 
     screen.fill(game_settings.bg_color)
 
     forrest.blitme()
-    for mob in mobs:
+    player.blitme()
+    for mob in mobs.sprites():
         mob.blitme()
+
+    if player.hp <= 0:
+        print('Game Over')
+        sys.exit()
 
     pygame.display.flip()
     clock.tick(game_settings.fps)
