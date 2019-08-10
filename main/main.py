@@ -3,11 +3,29 @@ from settings import Settings
 import game_functions as gf
 
 from background import Background
+import heroes
 
-from characters.knight import Knight
+
+def character_creation():
+    print("Wizard, Elf, or Knight")
+    char_select = input('-> ').lower()
+
+    if char_select == 'wizard':
+        print('Choose green staff[g] or red staff[r]')
+    elif char_select == 'elf':
+        print('Choose axe[a], baton[b], cleaver[c], duel sword[d]')
+    elif char_select == 'knight':
+        print('Choose big sword[bs], big hammer[bh], knight sword[ks]')
+    else:
+        exit(1)
+
+    weapon = input('-> ').lower()
+    return char_select, weapon
 
 
 def run_game():
+    char_select, weapon = character_creation()
+
     pygame.init()
     clock = pygame.time.Clock()
     game_settings = Settings()
@@ -19,7 +37,12 @@ def run_game():
     forrest = Background(
         game_settings, screen, '../resources/backgrounds/forest3.png')
 
-    player = Knight(game_settings, screen)
+    if char_select == 'wizard':
+        player = heroes.Wizard(game_settings, screen, weapon)
+    elif char_select == 'elf':
+        player = heroes.Elf(game_settings, screen, weapon)
+    else:
+        player = heroes.Knight(game_settings, screen, weapon)
 
     while True:
 
@@ -29,3 +52,4 @@ def run_game():
 
 
 run_game()
+

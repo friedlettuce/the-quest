@@ -9,22 +9,19 @@ def check_events(player):
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                player.moving_right = True
-                player.weapon.face_right(player.center)
+                player.right()
             elif event.key == pygame.K_LEFT:
-                player.moving_left = True
-                player.weapon.face_left(player.center)
+                player.left()
             elif event.key == pygame.K_q:
                 player.use_weapon()
             elif event.key == pygame.K_v:
-                player.toggle_weapon = not player.toggle_weapon
+                player.weapon.toggled = not player.weapon.toggled
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 player.moving_right = False
-                player.facing_right = True
             if event.key == pygame.K_LEFT:
-                player.moving_left = player.facing_right = False
+                player.moving_left = False
 
 
 def update_screen(game_settings, screen, clock, forrest, player):
