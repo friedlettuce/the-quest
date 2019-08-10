@@ -134,6 +134,14 @@ class Hero(Player):
     def use_weapon(self):
         self.weapon.using = True
 
+    def check_collision(self, sprite):
+        if pygame.sprite.collide_mask(self.weapon, sprite):
+            self.collision = True
+
+            if self.weapon.using:
+                sprite.hp -= self.weapon.damage
+                print(sprite.name, 'hit. HP: ', sprite.hp)
+
     def update(self):
         super().update()
         self.weapon.update(
@@ -152,9 +160,10 @@ class Knight(Hero):
         self.hp = 20
 
         if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
-            self.weapon = KnightWeapon(screen, self.rect, weapon)
+            self.weapon = KnightWeapon(
+                screen, game_settings, self.rect, weapon)
         else:
-            self.weapon = KnightWeapon(screen, self.rect)
+            self.weapon = KnightWeapon(screen, game_settings, self.rect)
 
 
 class Wizard(Hero):
@@ -165,14 +174,10 @@ class Wizard(Hero):
         self.hp = 10
 
         if weapon == 'g' or weapon == 'r':
-            self.weapon = WizardWeapon(screen, self.rect, weapon)
+            self.weapon = WizardWeapon(
+                screen, game_settings, self.rect, weapon)
         else:
-            self.weapon = WizardWeapon(screen, self.rect)
-
-    def update(self):
-        '''self.weapon.update(
-            self.rect.centerx, self.rect.centery, self.facing_right)'''
-        super().update()
+            self.weapon = WizardWeapon(screen, game_settings, self.rect)
 
 
 class Elf(Hero):
@@ -186,11 +191,6 @@ class Elf(Hero):
             self.weapon = ElfWeapon(screen, self.rect, weapon)
         else:
             self.weapon = ElfWeapon(screen, self.rect)
-
-    def update(self):
-        '''self.weapon.update(
-            self.rect.centerx, self.rect.centery, self.facing_right)'''
-        super().update()
 
 
 class Mob(Player):
@@ -207,12 +207,17 @@ class Mob(Player):
         self.left()
 
         self.npc = True
+        self.hit = 0
 
     def check_collision(self, sprite):
         if pygame.sprite.collide_mask(self, sprite):
             self.collision = True
-            sprite.hp -= self.damage
-            print(sprite.name, 'hit')
+
+            self.hit %= 20
+            if self.hit == 0:
+                sprite.hp -= self.damage
+                print(sprite.name, 'hit. HP: ', sprite.hp)
+            self.hit += 1
 
     def update(self, player):
         super().update()

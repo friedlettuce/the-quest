@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 
 
 class Weapon(Sprite):
-    def __init__(self, screen, rect, weapon):
+    def __init__(self, screen, game_settings, rect, weapon):
         super().__init__()
         self.screen = screen
         self.xoffset = 15
@@ -28,6 +28,8 @@ class Weapon(Sprite):
         self.rect.centerx = rect.centerx + self.xoffset
         self.rect.centery = rect.centery
 
+        self.damage = game_settings.setWeaponDamage(weapon)
+
     def face_right(self):
         self.image = self.image_r
 
@@ -41,8 +43,8 @@ class Weapon(Sprite):
 
 class KnightWeapon(Weapon):
 
-    def __init__(self, screen, rect, weapon='ks'):
-        super().__init__(screen, rect, weapon)
+    def __init__(self, screen, game_settings, rect, weapon='ks'):
+        super().__init__(screen, game_settings, rect, weapon)
 
         # Rotation and positioning vars
         self.rotbase = 45
@@ -84,8 +86,8 @@ class KnightWeapon(Weapon):
 
 class WizardWeapon(Weapon):
 
-    def __init__(self, screen, rect, weapon='g'):
-        super().__init__(screen, rect, weapon)
+    def __init__(self, screen, game_settings, rect, weapon='g'):
+        super().__init__(screen, game_settings, rect, weapon)
 
         # Rotation and positioning vars
         self.rotbase = 45
@@ -127,8 +129,8 @@ class WizardWeapon(Weapon):
 
 class ElfWeapon(Weapon):
 
-    def __init__(self, screen, rect, weapon='d'):
-        super().__init__(screen, rect, weapon)
+    def __init__(self, screen, game_settings, rect, weapon='d'):
+        super().__init__(screen, game_settings, rect, weapon)
 
         # Rotation and positioning vars
         self.rotbase = 45

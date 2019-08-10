@@ -2,6 +2,7 @@
 
 ### TODO
 - Add health
-- Add collision and damage from mobs
-- Add collision and damage from hero weapons
+- Add waves and progressively difficult random mob spawing
+- Add moving background
+- Add castle with fortifications
 

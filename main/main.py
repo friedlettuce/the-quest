@@ -55,6 +55,11 @@ def run_game():
         for mob in mobs.sprites():
             player.check_collision(mob)
         player.update()
+
+        if player.hp <= 0:
+            print('Game Over')
+            sys.exit()
+
         gf.update_mobs(game_settings, screen, mobs, player)
 
         gf.update_screen(game_settings, screen, clock, forrest, player, mobs)

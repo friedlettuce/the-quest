@@ -34,6 +34,9 @@ def update_mobs(game_settings, screen, mobs, player):
     for mob in mobs.sprites():
         mob.check_collision(player)
         mob.update(player)
+
+        if mob.hp <= 0:
+            mobs.remove(mob)
     #mobs.update(player)
 
     for mob in mobs.copy():
@@ -49,10 +52,6 @@ def update_screen(game_settings, screen, clock, forrest, player, mobs):
     player.blitme()
     for mob in mobs.sprites():
         mob.blitme()
-
-    if player.hp <= 0:
-        print('Game Over')
-        sys.exit()
 
     pygame.display.flip()
     clock.tick(game_settings.fps)
