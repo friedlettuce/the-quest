@@ -29,6 +29,12 @@ class Settings:
         self.bigDemonDamage = (self.bigDemonHP / 4) + 1
         self.impDamage = (self.impHP / 4) + 1
 
+        # Animations settings
+        self.hit_path = '../resources/animations/attack/hit'
+        self.hit_frames = 4
+        self.hit_size = 16, 16
+        self.increment = 20
+
     def setWeaponDamage(self, weapon):
         if weapon == 'a':
             return 5

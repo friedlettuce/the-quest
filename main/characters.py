@@ -140,6 +140,7 @@ class Hero(Player):
     def check_collision(self, sprite):
         if pygame.sprite.collide_mask(self.weapon, sprite):
             self.collision = True
+            self.weapon.collision = True
 
             self.hit %= 3
 
@@ -150,6 +151,8 @@ class Hero(Player):
                 print(sprite.name, 'hit. HP: ', sprite.hp)
 
             self.hit += 1
+        else:
+            self.weapon.collision = False
 
     def update(self):
         super().update()

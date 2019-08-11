@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from animations import HitAnimation
 
 
 class Weapon(Sprite):
@@ -13,6 +14,7 @@ class Weapon(Sprite):
         self.using = False
         self.hit = False
         self.toggled = False
+        self.collision = False
 
         # Loads weapon img
         self.image_r = pygame.image.load(
@@ -30,15 +32,25 @@ class Weapon(Sprite):
 
         self.damage = game_settings.setWeaponDamage(weapon)
 
+        self.animation = HitAnimation(screen, game_settings)
+
     def face_right(self):
         self.image = self.image_r
+        self.animation.right()
 
     def face_left(self):
         self.image = self.image_l
+        self.animation.left()
+
+    def update(self):
+        self.animation.update()
 
     def blitme(self):
         if self.toggled:
             self.screen.blit(self.image, self.rect)
+
+            if self.using:
+                self.animation.blitme(self.rect)
 
 
 class KnightWeapon(Weapon):
@@ -83,6 +95,8 @@ class KnightWeapon(Weapon):
         else:
             self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
 
+        super().update()
+
 
 class WizardWeapon(Weapon):
 
@@ -126,6 +140,8 @@ class WizardWeapon(Weapon):
         else:
             self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
 
+        super().update()
+
 
 class ElfWeapon(Weapon):
 
@@ -168,3 +184,5 @@ class ElfWeapon(Weapon):
             self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
         else:
             self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
+
+        super().update()
