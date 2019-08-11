@@ -1,4 +1,5 @@
 import pygame
+from building import Building
 
 
 class Background:
@@ -16,5 +17,9 @@ class Background:
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
+        building_path = '../resources/building/castle/2/Asset 24.png'
+        self.new_building = Building(screen, game_settings, building_path)
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+        self.new_building.blitme()

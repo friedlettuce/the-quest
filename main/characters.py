@@ -123,6 +123,7 @@ class Hero(Player):
 
         self.npc = False
         self.ui = UI(screen, game_settings)
+        self.hit = 0
         self.weapon = ''
 
     def left(self):
@@ -140,11 +141,15 @@ class Hero(Player):
         if pygame.sprite.collide_mask(self.weapon, sprite):
             self.collision = True
 
-            if self.weapon.using:
+            self.hit %= 3
+
+            if self.weapon.using and self.hit == 1:
                 sprite.hp -= self.weapon.damage
                 if sprite.hp < 0:
                     sprite.hp = 0
                 print(sprite.name, 'hit. HP: ', sprite.hp)
+
+            self.hit += 1
 
     def update(self):
         super().update()
@@ -248,7 +253,7 @@ class BigDemon(Mob):
         super().__init__(game_settings, screen, path)
 
         self.hp = game_settings.bigDemonHP
-        self.damage = self.bigDemonDamage
+        self.damage = game_settings.bigDemonDamage
 
 
 class Imp(Mob):

@@ -28,7 +28,7 @@ def check_events(player, mobs):
 def update_mobs(game_settings, screen, mobs, player):
     # Adding mobs
     if len(mobs) == 0:
-        mobs.add(characters.Imp(game_settings, screen))
+        mobs.add(characters.BigDemon(game_settings, screen))
 
     # Updating mobs
     for mob in mobs.sprites():

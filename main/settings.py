@@ -24,7 +24,7 @@ class Settings:
         self.wizardHP = 10
         self.elfHP = 15
 
-        self.bigDemonHP = 8
+        self.bigDemonHP = 9
         self.impHP = 3
         self.bigDemonDamage = (self.bigDemonHP / 4) + 1
         self.impDamage = (self.impHP / 4) + 1
