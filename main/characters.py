@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+from ui import UI
 from weapon import KnightWeapon, WizardWeapon, ElfWeapon
 
 
@@ -121,6 +122,7 @@ class Hero(Player):
         self.center = float(self.rect.centerx)
 
         self.npc = False
+        self.ui = UI(screen, game_settings)
         self.weapon = ''
 
     def left(self):
@@ -140,6 +142,8 @@ class Hero(Player):
 
             if self.weapon.using:
                 sprite.hp -= self.weapon.damage
+                if sprite.hp < 0:
+                    sprite.hp = 0
                 print(sprite.name, 'hit. HP: ', sprite.hp)
 
     def update(self):
@@ -148,6 +152,7 @@ class Hero(Player):
             self.rect.centerx, self.rect.centery, self.facing_right)
 
     def blitme(self):
+        self.ui.blitme((self.hp / self.baseHp))
         self.weapon.blitme()
         super().blitme()
 
@@ -157,7 +162,7 @@ class Knight(Hero):
     def __init__(self, game_settings, screen, weapon):
         self.name = 'knight'
         super().__init__(game_settings, screen, self.name)
-        self.hp = 20
+        self.hp = self.baseHp = 20
 
         if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
             self.weapon = KnightWeapon(
@@ -171,7 +176,9 @@ class Wizard(Hero):
     def __init__(self, game_settings, screen, weapon):
         self.name = 'wizard'
         super().__init__(game_settings, screen, self.name)
-        self.hp = 10
+        self.ui = UI(screen, game_settings, True)
+        self.hp = self.baseHp = 10
+        self.mana = self.baseMana = 20
 
         if weapon == 'g' or weapon == 'r':
             self.weapon = WizardWeapon(
@@ -179,13 +186,18 @@ class Wizard(Hero):
         else:
             self.weapon = WizardWeapon(screen, game_settings, self.rect)
 
+    def blitme(self):
+        self.ui.blitme((self.hp / self.baseHp), (self.mana / self.baseMana))
+        self.weapon.blitme()
+        super().blitme()
+
 
 class Elf(Hero):
 
     def __init__(self, game_settings, screen, weapon):
         self.name = 'elf'
         super().__init__(game_settings, screen, self.name)
-        self.hp = 15
+        self.hp = self.baseHp = 15
 
         if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
             self.weapon = ElfWeapon(screen, self.rect, weapon)
@@ -213,9 +225,11 @@ class Mob(Player):
         if pygame.sprite.collide_mask(self, sprite):
             self.collision = True
 
-            self.hit %= 20
+            self.hit %= 15
             if self.hit == 0:
                 sprite.hp -= self.damage
+                if sprite.hp < 0:
+                    sprite.hp = 0
                 print(sprite.name, 'hit. HP: ', sprite.hp)
             self.hit += 1
 

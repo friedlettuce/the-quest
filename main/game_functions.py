@@ -37,7 +37,6 @@ def update_mobs(game_settings, screen, mobs, player):
 
         if mob.hp <= 0:
             mobs.remove(mob)
-    #mobs.update(player)
 
     for mob in mobs.copy():
         if mob.rect.right <= 0:

@@ -6,6 +6,9 @@ class Settings:
         self.screen_height = 448
         self.bg_color = (230, 230, 230)
 
+        self.statusBarX = 103
+        self.statusBarY = 14
+
         self.fps = 15
         self.anicycle = 4
 
