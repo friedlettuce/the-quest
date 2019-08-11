@@ -42,18 +42,7 @@ class Animation:
             self.image = self.frames_l[self.frame]
 
     def blitme(self, rect):
-        rect_anim = rect
-        if self.facing_right:
-            rect_anim.centerx = int(rect_anim.centerx +
-                                    (rect_anim.centerx / 6))
-            '''rect_anim.centery = int(rect_anim.centery +
-                                    (rect_anim.centery / 30))'''
+        rect_anim = rect.copy()
+        rect_anim.left = rect_anim.right
 
-        self.screen.blit(self.image, rect)
-
-
-class HitAnimation(Animation):
-
-    def __init__(self, screen, game_settings):
-        super().__init__(screen, game_settings.hit_path,
-                         game_settings.hit_frames, game_settings.hit_size,)
+        self.screen.blit(self.image, rect_anim)

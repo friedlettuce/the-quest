@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from animations import HitAnimation
+from animations import Animation
 
 
 class Weapon(Sprite):
@@ -32,7 +32,8 @@ class Weapon(Sprite):
 
         self.damage = game_settings.setWeaponDamage(weapon)
 
-        self.animation = HitAnimation(screen, game_settings)
+        self.animation = Animation(screen, game_settings.hit_path,
+                         game_settings.hit_frames, game_settings.hit_size)
 
     def face_right(self):
         self.image = self.image_r
