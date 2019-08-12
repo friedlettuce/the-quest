@@ -156,7 +156,7 @@ class Hero(Player):
 
     def update(self):
         super().update()
-        self.weapon.update(self.rect.centerx,
+        self.weapon.update(self.rect,
                            self.rect.centery, self.facing_right)
 
     def blitme(self):
@@ -208,9 +208,9 @@ class Elf(Hero):
         self.hp = self.baseHp = 15
 
         if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
-            self.weapon = ElfWeapon(screen, self.rect, weapon)
+            self.weapon = ElfWeapon(screen, game_settings, self.rect, weapon)
         else:
-            self.weapon = ElfWeapon(screen, self.rect)
+            self.weapon = ElfWeapon(screen, game_settings, self.rect)
 
 
 class Mob(Player):

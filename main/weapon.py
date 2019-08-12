@@ -33,7 +33,7 @@ class Weapon(Sprite):
         # Sets up init position/image
         self.image = self.image_r
         self.rect = self.image.get_rect()
-        self.rect.centerx = rect.centerx + self.xoffset
+        self.rect.left = rect.right
         self.rect.centery = rect.centery
 
         self.damage = game_settings.setWeaponDamage(weapon)
@@ -73,16 +73,14 @@ class Weapon(Sprite):
                     else:
                         self.image = self.image_l
 
-    def update(self, centerx, centery, facing_right):
+    def update(self, rect, centery, facing_right):
         self.rotating(facing_right)
-
-        self.rect.centerx = centerx
         self.rect.centery = centery
 
         if facing_right:
-            self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
+            self.rect.centerx = rect.right - ((rect.centerx - rect.right) / 3)
         else:
-            self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
+            self.rect.centerx = rect.left + ((rect.left - rect.centerx) / 3)
 
         self.animation.update()
 
