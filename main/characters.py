@@ -156,8 +156,8 @@ class Hero(Player):
 
     def update(self):
         super().update()
-        self.weapon.update(
-            self.rect.centerx, self.rect.centery, self.facing_right)
+        self.weapon.update(self.rect.centerx,
+                           self.rect.centery, self.facing_right)
 
     def blitme(self):
         self.ui.blitme((self.hp / self.baseHp))

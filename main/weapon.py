@@ -4,6 +4,7 @@ from animations import Animation
 
 
 class Weapon(Sprite):
+
     def __init__(self, screen, game_settings, rect, weapon):
         super().__init__()
         self.screen = screen
@@ -15,6 +16,11 @@ class Weapon(Sprite):
         self.hit = False
         self.toggled = False
         self.collision = False
+
+        # Rotation and positioning vars
+        self.rotbase = 45
+        self.rottarget = 60
+        self.rotrate = 5
 
         # Loads weapon img
         self.image_r = pygame.image.load(
@@ -43,7 +49,41 @@ class Weapon(Sprite):
         self.image = self.image_l
         self.animation.left()
 
-    def update(self):
+    def rotating(self, facing_right):
+
+        if self.using and self.toggled:
+            if self.rotation != self.rottarget and not self.hit:
+                self.rotation += self.rotrate
+
+                self.image = pygame.transform.rotate(self.image, -self.rotrate)
+            else:
+                self.hit = True
+
+                if self.rotation != self.rotbase:
+                    self.rotation -= self.rotrate
+
+                    self.image = pygame.transform.rotate(
+                        self.image, self.rotrate)
+                else:
+                    self.using = False
+                    self.hit = False
+
+                    if facing_right:
+                        self.image = self.image_r
+                    else:
+                        self.image = self.image_l
+
+    def update(self, centerx, centery, facing_right):
+        self.rotating(facing_right)
+
+        self.rect.centerx = centerx
+        self.rect.centery = centery
+
+        if facing_right:
+            self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
+        else:
+            self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
+
         self.animation.update()
 
     def blitme(self):
@@ -59,131 +99,14 @@ class KnightWeapon(Weapon):
     def __init__(self, screen, game_settings, rect, weapon='ks'):
         super().__init__(screen, game_settings, rect, weapon)
 
-        # Rotation and positioning vars
-        self.rotbase = 45
-        self.rottarget = 60
-        self.rotrate = 5
-
-    def update(self, centerx, centery, facing_right):
-
-        if self.using and self.toggled:
-            if self.rotation != self.rottarget and not self.hit:
-                self.rotation += self.rotrate
-
-                self.image = pygame.transform.rotate(self.image, -self.rotrate)
-            else:
-                self.hit = True
-
-                if self.rotation != self.rotbase:
-                    self.rotation -= self.rotrate
-
-                    self.image = pygame.transform.rotate(
-                        self.image, self.rotrate)
-                else:
-                    self.using = False
-                    self.hit = False
-
-                    if facing_right:
-                        self.image = self.image_r
-                    else:
-                        self.image = self.image_l
-
-        self.rect.centerx = centerx
-        self.rect.centery = centery
-
-        if facing_right:
-            self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-        else:
-            self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-
-        super().update()
-
 
 class WizardWeapon(Weapon):
 
     def __init__(self, screen, game_settings, rect, weapon='g'):
         super().__init__(screen, game_settings, rect, weapon)
 
-        # Rotation and positioning vars
-        self.rotbase = 45
-        self.rottarget = 60
-        self.rotrate = 5
-
-    def update(self, centerx, centery, facing_right):
-
-        if self.using and self.toggled:
-            if self.rotation != self.rottarget and not self.hit:
-                self.rotation += self.rotrate
-
-                self.image = pygame.transform.rotate(self.image, -self.rotrate)
-            else:
-                self.hit = True
-
-                if self.rotation != self.rotbase:
-                    self.rotation -= self.rotrate
-
-                    self.image = pygame.transform.rotate(
-                        self.image, self.rotrate)
-                else:
-                    self.using = False
-                    self.hit = False
-
-                    if facing_right:
-                        self.image = self.image_r
-                    else:
-                        self.image = self.image_l
-
-        self.rect.centerx = centerx
-        self.rect.centery = centery
-
-        if facing_right:
-            self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-        else:
-            self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-
-        super().update()
-
 
 class ElfWeapon(Weapon):
 
     def __init__(self, screen, game_settings, rect, weapon='d'):
         super().__init__(screen, game_settings, rect, weapon)
-
-        # Rotation and positioning vars
-        self.rotbase = 45
-        self.rottarget = 60
-        self.rotrate = 5
-
-    def update(self, centerx, centery, facing_right):
-
-        if self.using and self.toggled:
-            if self.rotation != self.rottarget and not self.hit:
-                self.rotation += self.rotrate
-
-                self.image = pygame.transform.rotate(self.image, -self.rotrate)
-            else:
-                self.hit = True
-
-                if self.rotation != self.rotbase:
-                    self.rotation -= self.rotrate
-
-                    self.image = pygame.transform.rotate(
-                        self.image, self.rotrate)
-                else:
-                    self.using = False
-                    self.hit = False
-
-                    if facing_right:
-                        self.image = self.image_r
-                    else:
-                        self.image = self.image_l
-
-        self.rect.centerx = centerx
-        self.rect.centery = centery
-
-        if facing_right:
-            self.rect.centerx += self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-        else:
-            self.rect.centerx -= self.xoffset - (self.rotation - (self.rotbase + self.rotrate))
-
-        super().update()
