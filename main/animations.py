@@ -42,7 +42,44 @@ class Animation:
             self.image = self.frames_l[self.frame]
 
     def blitme(self, rect):
-        rect_anim = rect.copy()
-        rect_anim.left = rect_anim.right
+        self.screen.blit(self.image, rect)
 
-        self.screen.blit(self.image, rect_anim)
+
+class Ice(Animation):
+
+    def __int__(self, rect, game_settings):
+        super().__init__(game_settings.screen,
+                         game_settings.frames, game_settings.size)
+        self.rect = rect
+        self.finished = False
+        self.collision = False
+
+        self.ice_speed = game_settings.ice_speed
+        self.ice_damage = game_settings.ice_damage
+
+    def reset(self, rect):
+        self.rect = rect
+        self.finished = False
+        self.collision = False
+        self.collisionRect = 0
+
+    def collision(self, collisionRect):
+        if self.facing_right:
+            self.rect.right = self.collisionRect.left
+        else:
+            self.rect.left = self.collisionRect.right
+
+    def update(self):
+        super().update()
+
+        if not self.finished:
+            if self.facing_right:
+                self.rect.right = self.collisionRect.left
+            else:
+                self.rect.left = self.collisionRect.right
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+
+

@@ -8,6 +8,7 @@ class Weapon(Sprite):
     def __init__(self, screen, game_settings, rect, weapon):
         super().__init__()
         self.screen = screen
+        self.game_settings = game_settings
         self.xoffset = 15
         self.rotation = 45
 
@@ -89,7 +90,9 @@ class Weapon(Sprite):
             self.screen.blit(self.image, self.rect)
 
             if self.using:
-                self.animation.blitme(self.rect)
+                rect_anim = self.rect.copy()
+                rect_anim.left = rect_anim.right
+                self.animation.blitme(rect_anim)
 
 
 class KnightWeapon(Weapon):
@@ -102,6 +105,35 @@ class WizardWeapon(Weapon):
 
     def __init__(self, screen, game_settings, rect, weapon='g'):
         super().__init__(screen, game_settings, rect, weapon)
+        self.using_spell = False
+        self.blit_spell = False
+
+        self.ice = Animation(self.rect, screen, game_settings)
+
+    def reset(self):
+        self.using_spell = False
+        self.blit_spell = False
+        self.ice.reset(self.rect)
+
+    def update(self, rect, centery, facing_right):
+        super().update()
+
+        if self.using_spell and not self.ice_collision:
+            if facing_right:
+                self.ice.rect.centerx += self.game_settings.ice_speed
+            else:
+                self.ice.rect.centerx -= self.game_settings.ice_speed
+
+        if (self.rect.right < self.screen.get_rect().left or
+                self.rect.left > self.screen.get_rect().right or
+                self.ice.finished):
+            self.reset()
+
+    def blitme(self):
+        super().blitme()
+
+        if self.blit_spell:
+            self.ice.blitme()
 
 
 class ElfWeapon(Weapon):

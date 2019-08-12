@@ -33,7 +33,12 @@ class Settings:
         self.hit_path = '../resources/animations/attack/hit'
         self.hit_frames = 4
         self.hit_size = 16, 16
-        self.increment = 20
+
+        self.ice_path = '../resources/animations/ice_shard/ice_spell'
+        self.ice_frames = 11
+        self.ice_size = 16, 16
+        self.ice_damage = 4
+        self.ice_speed = 8
 
     def setWeaponDamage(self, weapon):
         if weapon == 'a':
