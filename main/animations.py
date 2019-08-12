@@ -67,13 +67,6 @@ class IceSpell(Animation):
     def collisionRectSet(self, collisionRect):
         self.rect.centerx = collisionRect.centerx
 
-        '''
-        if self.facing_right:
-            self.rect.right = collisionRect.left
-        else:
-            self.rect.left = collisionRect.right
-        '''
-
     def update(self):
         if (self.rect.right < self.screen.get_rect().left or
                 self.rect.left > self.screen.get_rect().right):

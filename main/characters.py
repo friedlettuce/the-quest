@@ -195,8 +195,9 @@ class Wizard(Hero):
             self.weapon = WizardWeapon(screen, game_settings, self.rect)
 
     def use_spell(self):
-        self.weapon.reset()
-        self.weapon.using_spell = True
+        if self.weapon.toggled:
+            self.weapon.reset()
+            self.weapon.using_spell = True
 
     def check_collision(self, sprite):
         super().check_collision(sprite)

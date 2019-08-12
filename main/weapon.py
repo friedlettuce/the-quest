@@ -110,25 +110,29 @@ class WizardWeapon(Weapon):
         self.iceSpell = IceSpell(screen, self.rect, game_settings)
         self.iceDamage = game_settings.ice_damage
 
-        self.delay = 0
-
     def checkIceCollision(self, sprite):
         if pygame.sprite.collide_mask(self.iceSpell, sprite):
-            self.iceSpell.collision = True
-
-            self.delay %= 2
-            if self.delay == 1:
+            if not self.iceSpell.collision:
                 sprite.hp -= self.iceDamage
                 print(sprite.name, 'hit. HP: ', sprite.hp)
-            self.delay += 1
 
+            self.iceSpell.collision = True
             self.iceSpell.collisionRectSet(sprite.rect)
         else:
             self.iceSpell.collision = False
 
     def reset(self):
         self.using_spell = False
+        self.ice_hit = False
         self.iceSpell.reset(self.rect)
+
+    def face_left(self):
+        super().face_left()
+        self.iceSpell.left()
+
+    def face_right(self):
+        super().face_right()
+        self.iceSpell.right()
 
     def updateIceSpell(self):
         self.iceSpell.update()

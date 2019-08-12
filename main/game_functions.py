@@ -16,8 +16,9 @@ def check_events(player, mobs):
             elif event.key == pygame.K_q:
                 player.use_weapon()
             elif event.key == pygame.K_w and player.name == 'wizard':
-                player.use_weapon()
-                player.use_spell()
+                if not player.weapon.using_spell:
+                    player.use_weapon()
+                    player.use_spell()
             elif event.key == pygame.K_v:
                 player.weapon.toggled = not player.weapon.toggled
 
