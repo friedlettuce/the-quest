@@ -154,10 +154,6 @@ class Hero(Player):
         else:
             self.weapon.collision = False
 
-        if self.name == 'wizard':
-            if self.weapon.using_spell:
-                print("Ice")
-
     def update(self):
         super().update()
         self.weapon.update(self.rect,
@@ -199,17 +195,27 @@ class Wizard(Hero):
             self.weapon = WizardWeapon(screen, game_settings, self.rect)
 
     def use_spell(self):
+        self.weapon.reset()
         self.weapon.using_spell = True
 
     def check_collision(self, sprite):
         super().check_collision(sprite)
+
+        if self.weapon.using_spell:
+            self.weapon.checkIceCollision(sprite)
+
+    def update(self):
+        super().update()
+
+        if self.weapon.using_spell:
+            self.weapon.updateIceSpell()
 
     def blitme(self):
         self.ui.blitme((self.hp / self.baseHp), (self.mana / self.baseMana))
         self.weapon.blitme()
 
         if self.weapon.using_spell:
-            self.weapon.ice.blitme()
+            self.weapon.iceSpell.blitme()
 
         super().blitme()
 

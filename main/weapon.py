@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from animations import Animation
+from animations import Animation, IceSpell
 
 
 class Weapon(Sprite):
@@ -105,35 +105,41 @@ class WizardWeapon(Weapon):
 
     def __init__(self, screen, game_settings, rect, weapon='g'):
         super().__init__(screen, game_settings, rect, weapon)
-        self.using_spell = False
-        self.blit_spell = False
 
-        self.ice = Animation(self.rect, screen, game_settings)
+        self.using_spell = False
+        self.iceSpell = IceSpell(screen, self.rect, game_settings)
+        self.iceDamage = game_settings.ice_damage
+
+        self.delay = 0
+
+    def checkIceCollision(self, sprite):
+        if pygame.sprite.collide_mask(self.iceSpell, sprite):
+            self.iceSpell.collision = True
+
+            self.delay %= 2
+            if self.delay == 1:
+                sprite.hp -= self.iceDamage
+                print(sprite.name, 'hit. HP: ', sprite.hp)
+            self.delay += 1
+
+            self.iceSpell.collisionRectSet(sprite.rect)
+        else:
+            self.iceSpell.collision = False
 
     def reset(self):
         self.using_spell = False
-        self.blit_spell = False
-        self.ice.reset(self.rect)
+        self.iceSpell.reset(self.rect)
 
-    def update(self, rect, centery, facing_right):
-        super().update()
-
-        if self.using_spell and not self.ice_collision:
-            if facing_right:
-                self.ice.rect.centerx += self.game_settings.ice_speed
-            else:
-                self.ice.rect.centerx -= self.game_settings.ice_speed
-
-        if (self.rect.right < self.screen.get_rect().left or
-                self.rect.left > self.screen.get_rect().right or
-                self.ice.finished):
+    def updateIceSpell(self):
+        self.iceSpell.update()
+        if self.iceSpell.finished:
             self.reset()
 
     def blitme(self):
         super().blitme()
 
-        if self.blit_spell:
-            self.ice.blitme()
+        if self.using_spell:
+            self.iceSpell.blitme()
 
 
 class ElfWeapon(Weapon):

@@ -16,6 +16,7 @@ def check_events(player, mobs):
             elif event.key == pygame.K_q:
                 player.use_weapon()
             elif event.key == pygame.K_w and player.name == 'wizard':
+                player.use_weapon()
                 player.use_spell()
             elif event.key == pygame.K_v:
                 player.weapon.toggled = not player.weapon.toggled
@@ -50,9 +51,10 @@ def update_screen(game_settings, screen, clock, forrest, player, mobs):
     screen.fill(game_settings.bg_color)
 
     forrest.blitme()
-    player.blitme()
+
     for mob in mobs.sprites():
         mob.blitme()
+    player.blitme()
 
     pygame.display.flip()
     clock.tick(game_settings.fps)

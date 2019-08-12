@@ -36,9 +36,9 @@ class Settings:
 
         self.ice_path = '../resources/animations/ice_shard/ice_spell'
         self.ice_frames = 11
-        self.ice_size = 16, 16
+        self.ice_size = 32, 32
         self.ice_damage = 4
-        self.ice_speed = 8
+        self.ice_speed = 25
 
     def setWeaponDamage(self, weapon):
         if weapon == 'a':

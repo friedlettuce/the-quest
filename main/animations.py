@@ -45,38 +45,56 @@ class Animation:
         self.screen.blit(self.image, rect)
 
 
-class Ice(Animation):
+class IceSpell(Animation):
 
-    def __int__(self, rect, game_settings):
-        super().__init__(game_settings.screen,
-                         game_settings.frames, game_settings.size)
-        self.rect = rect
-        self.finished = False
-        self.collision = False
+    def __init__(self, screen, rect, game_settings):
+        super().__init__(screen, game_settings.ice_path,
+                         game_settings.ice_frames, game_settings.ice_size)
 
-        self.ice_speed = game_settings.ice_speed
-        self.ice_damage = game_settings.ice_damage
-
-    def reset(self, rect):
-        self.rect = rect
+        self.rect = rect.copy()
         self.finished = False
         self.collision = False
         self.collisionRect = 0
 
-    def collision(self, collisionRect):
+        self.speed = game_settings.ice_speed
+
+    def reset(self, rect):
+        self.rect = rect.copy()
+        self.frame = 0
+        self.finished = False
+        self.collision = False
+
+    def collisionRectSet(self, collisionRect):
+        self.rect.centerx = collisionRect.centerx
+
+        '''
         if self.facing_right:
-            self.rect.right = self.collisionRect.left
+            self.rect.right = collisionRect.left
         else:
-            self.rect.left = self.collisionRect.right
+            self.rect.left = collisionRect.right
+        '''
 
     def update(self):
-        super().update()
+        if (self.rect.right < self.screen.get_rect().left or
+                self.rect.left > self.screen.get_rect().right):
+            self.finished = True
 
         if not self.finished:
             if self.facing_right:
-                self.rect.right = self.collisionRect.left
+                self.image = self.frames_r[self.frame]
             else:
-                self.rect.left = self.collisionRect.right
+                self.image = self.frames_l[self.frame]
+
+            if self.frame == 10:
+                self.finished = True
+
+            if not self.collision:
+                if self.facing_right:
+                    self.rect.centerx += self.speed
+                else:
+                    self.rect.centerx -= self.speed
+
+        self.frame += 1
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
