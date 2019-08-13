@@ -8,6 +8,11 @@ class Settings:
 
         self.statusBarX = 103
         self.statusBarY = 14
+        self.enemyBarX = 50
+        self.enemyBarY = 50
+        self.empty_bar = '../resources/ui/EmptyBar.png'
+        self.health_bar = '../resources/ui/RedBar.png'
+        self.mana_bar = '../resources/ui/BlueBar.png'
 
         self.fps = 15
         self.anicycle = 4

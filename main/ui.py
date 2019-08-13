@@ -1,12 +1,13 @@
 import pygame
+from copy import copy
 
 
 class UI:
 
     def __init__(self, screen, game_settings, mana=False):
-        empty_bar = '../resources/ui/EmptyBar.png'
-        health_bar = '../resources/ui/RedBar.png'
-        mana_bar = '../resources/ui/BlueBar.png'
+        empty_bar = game_settings.empty_bar
+        health_bar = game_settings.health_bar
+        mana_bar = game_settings.mana_bar
         self.mana = mana
         xffset = yffset = 10
 
@@ -47,3 +48,43 @@ class Bar:
     def blitdec(self, area):
         self.screen.blit(self.image, self.rect,
                          (0, 0, int(self.rect.w * area), self.rect.h))
+
+
+class HoverHealth:
+
+    def __init__(self, screen, game_settings, rect, hp):
+        empty_bar = game_settings.empty_bar
+        health_bar = game_settings.health_bar
+
+        self.emptyHB = EnemyBar(screen, game_settings, rect, empty_bar)
+        self.healthBar = EnemyBar(screen, game_settings, rect,
+                             health_bar, hp)
+
+    def blitme(self):
+        self.emptyHB.blitme()
+        self.healthBar.blitdec()
+
+
+class EnemyBar:
+
+    def __init__(self, screen, game_settings, rect, bar, hp=0):
+        self.screen = screen
+        self.screen_rect = screen.get_rect()
+        self.hp = hp
+        self.baseHp = copy(self.hp)
+
+        self.image = pygame.image.load(bar)
+        self.image = pygame.transform.scale(
+            self.image, (game_settings.enemyBarX, game_settings.enemyBarY))
+        self.rect = self.image.get_rect()
+
+        self.rect.centerx = rect.centerx
+        self.rect.centery = rect.centery
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
+    def blitdec(self):
+        self.screen.blit(self.image, self.rect,
+                         (0, 0, int(self.rect.w * (self.hp / self.baseHp)),
+                          self.rect.h))

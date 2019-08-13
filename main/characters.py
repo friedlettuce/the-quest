@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
-from ui import UI
+from ui import UI, HoverHealth
 from weapon import Weapon, ProjectileSpell
 
 
@@ -122,8 +122,6 @@ class Hero(Player):
         self.rect.bottom = self.screen_rect.bottom - game_settings.floor
         self.center = float(self.rect.centerx)
 
-        self.npc = False
-        self.ui = UI(screen, game_settings)
         self.hit = 0
         self.hp = self.baseHp = self.mana = self.baseMana = 0
 
@@ -153,6 +151,9 @@ class Hero(Player):
                 self.weapon = Weapon(screen, game_settings, self.rect, weapon)
             else:
                 self.weapon = Weapon(screen, game_settings, self.rect, 'd')
+
+        self.npc = False
+        self.ui = UI(screen, game_settings)
 
     def left(self):
         super().left()
@@ -272,6 +273,8 @@ class Mob(Player):
         self.npc = True
         self.hit = 0
 
+        self.healthBar = HoverHealth(screen, game_settings, self.rect, self.hp)
+
     def check_collision(self, sprite):
         if pygame.sprite.collide_mask(self, sprite):
             self.collision = True
@@ -289,6 +292,10 @@ class Mob(Player):
 
         if self.rect.centerx <= 17 and not self.collision:
             self.center -= self.speed
+
+    def blitme(self):
+        super().blitme()
+        self.healthBar.blitme()
 
 
 class BigDemon(Mob):
