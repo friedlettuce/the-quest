@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 from ui import UI
-from weapon import KnightWeapon, WizardWeapon, ElfWeapon
+from weapon import Weapon, ProjectileSpell
 
 
 class Player(Sprite):
@@ -68,13 +68,13 @@ class Player(Sprite):
         for img in self.idle_frames_r:
             self.idle_frames_l.append(pygame.transform.flip(img, True, False))
 
-    def right(self):
-        self.moving_right = self.facing_right = True
-        self.moving_left = False
-
     def left(self):
         self.moving_right = self.facing_right = False
         self.moving_left = True
+
+    def right(self):
+        self.moving_right = self.facing_right = True
+        self.moving_left = False
 
     def check_collision(self, sprite):
         if pygame.sprite.collide_mask(self, sprite):
@@ -113,8 +113,9 @@ class Player(Sprite):
 
 class Hero(Player):
 
-    def __init__(self, game_settings, screen, hero):
+    def __init__(self, game_settings, screen, hero, weapon):
         path = '../resources/' + hero + '/' + hero + '_m'
+        self.name = hero
         super().__init__(game_settings, screen, path)
 
         self.rect.centerx = self.screen_rect.centerx / 3
@@ -124,7 +125,34 @@ class Hero(Player):
         self.npc = False
         self.ui = UI(screen, game_settings)
         self.hit = 0
-        self.weapon = ''
+        self.hp = self.baseHp = self.mana = self.baseMana = 0
+
+        if hero == 'knight':
+            self.hp = self.baseHp = 20
+
+            if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
+                self.weapon = Weapon(
+                    screen, game_settings, self.rect, weapon)
+            else:
+                self.weapon = Weapon(screen, game_settings, self.rect, 'ks')
+
+        elif hero == 'wizard':
+            self.hp = self.baseHp = 10
+            self.mana = self.baseMana = 20
+
+            if weapon == 'g' or weapon == 'r':
+                self.weapon = Weapon(
+                    screen, game_settings, self.rect, weapon)
+            else:
+                self.weapon = Weapon(screen, game_settings, self.rect, 'g')
+
+        elif hero == 'elf':
+            self.hp = self.baseHp = 15
+
+            if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
+                self.weapon = Weapon(screen, game_settings, self.rect, weapon)
+            else:
+                self.weapon = Weapon(screen, game_settings, self.rect, 'd')
 
     def left(self):
         super().left()
@@ -165,73 +193,67 @@ class Hero(Player):
         super().blitme()
 
 
-class Knight(Hero):
-
-    def __init__(self, game_settings, screen, weapon):
-        self.name = 'knight'
-        super().__init__(game_settings, screen, self.name)
-        self.hp = self.baseHp = 20
-
-        if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
-            self.weapon = KnightWeapon(
-                screen, game_settings, self.rect, weapon)
-        else:
-            self.weapon = KnightWeapon(screen, game_settings, self.rect)
-
-
 class Wizard(Hero):
 
     def __init__(self, game_settings, screen, weapon):
         self.name = 'wizard'
-        super().__init__(game_settings, screen, self.name)
+        super().__init__(game_settings, screen, self.name, weapon)
         self.ui = UI(screen, game_settings, True)
-        self.hp = self.baseHp = 10
-        self.mana = self.baseMana = 20
 
-        if weapon == 'g' or weapon == 'r':
-            self.weapon = WizardWeapon(
-                screen, game_settings, self.rect, weapon)
-        else:
-            self.weapon = WizardWeapon(screen, game_settings, self.rect)
+        self.iceSpell = ProjectileSpell(
+            screen, game_settings, self.rect, game_settings.ice_spell['path'],
+            game_settings.ice_spell['frames'], game_settings.ice_spell['dmg'])
+        self.fireSpell = ProjectileSpell(
+            screen, game_settings, self.rect, game_settings.fire_spell['path'],
+            game_settings.fire_spell['frames'], game_settings.fire_spell['dmg'])
+
+        self.spell_counter = 0
+        self.spells = [self.iceSpell, self.fireSpell]
+        self.spell = self.spells[self.spell_counter]
+
+    def left(self):
+        super().left()
+        self.spell.face_left()
+
+    def right(self):
+        super().right()
+        self.spell.face_right()
 
     def use_spell(self):
         if self.weapon.toggled:
-            self.weapon.reset()
-            self.weapon.using_spell = True
+            self.spell.reset()
+            self.spell.active = True
+
+    def switch_spell(self):
+        if self.spell.active:
+            return
+
+        self.spell.reset()
+
+        self.spell_counter += 1
+        self.spell_counter %= len(self.spells)
+
+        self.spell = self.spells[self.spell_counter]
 
     def check_collision(self, sprite):
         super().check_collision(sprite)
 
-        if self.weapon.using_spell:
-            self.weapon.checkIceCollision(sprite)
+        if self.spell.active:
+            self.spell.checkCollision(sprite)
 
     def update(self):
         super().update()
 
-        if self.weapon.using_spell:
-            self.weapon.updateIceSpell()
+        if self.spell.active:
+            self.spell.update()
 
     def blitme(self):
         self.ui.blitme((self.hp / self.baseHp), (self.mana / self.baseMana))
-        self.weapon.blitme()
 
-        if self.weapon.using_spell:
-            self.weapon.iceSpell.blitme()
+        if self.spell.active:
+            self.spell.blitme()
 
         super().blitme()
-
-
-class Elf(Hero):
-
-    def __init__(self, game_settings, screen, weapon):
-        self.name = 'elf'
-        super().__init__(game_settings, screen, self.name)
-        self.hp = self.baseHp = 15
-
-        if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
-            self.weapon = ElfWeapon(screen, game_settings, self.rect, weapon)
-        else:
-            self.weapon = ElfWeapon(screen, game_settings, self.rect)
 
 
 class Mob(Player):

@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from animations import Animation, IceSpell
+from animations import Animation, Spell
 
 
 class Weapon(Sprite):
@@ -95,58 +95,45 @@ class Weapon(Sprite):
                 self.animation.blitme(rect_anim)
 
 
-class KnightWeapon(Weapon):
+class ProjectileSpell(Sprite):
 
-    def __init__(self, screen, game_settings, rect, weapon='ks'):
-        super().__init__(screen, game_settings, rect, weapon)
+    def __init__(self, screen, game_settings, rect, spell_path, spell_frames,
+                 spell_dmg):
+        super().__init__()
 
+        self.spell = Spell(screen, rect, game_settings,
+                           spell_path, spell_frames)
+        self.p_spell_damage = spell_dmg
+        self.active = False
+        self.weapon_rect = rect
 
-class WizardWeapon(Weapon):
-
-    def __init__(self, screen, game_settings, rect, weapon='g'):
-        super().__init__(screen, game_settings, rect, weapon)
-
-        self.using_spell = False
-        self.iceSpell = IceSpell(screen, self.rect, game_settings)
-        self.iceDamage = game_settings.ice_damage
-
-    def checkIceCollision(self, sprite):
-        if pygame.sprite.collide_mask(self.iceSpell, sprite):
-            if not self.iceSpell.collision:
-                sprite.hp -= self.iceDamage
+    def checkCollision(self, sprite):
+        if pygame.sprite.collide_mask(self.spell, sprite):
+            if not self.spell.collision:
+                sprite.hp -= self.p_spell_damage
                 print(sprite.name, 'hit. HP: ', sprite.hp)
 
-            self.iceSpell.collision = True
-            self.iceSpell.collisionRectSet(sprite.rect)
+            self.spell.collision = True
+            self.spell.collisionRectSet(sprite.rect)
         else:
-            self.iceSpell.collision = False
+            self.spell.collision = False
 
     def reset(self):
-        self.using_spell = False
-        self.ice_hit = False
-        self.iceSpell.reset(self.rect)
+        self.active = False
+        self.spell.reset(self.weapon_rect)
 
     def face_left(self):
-        super().face_left()
-        self.iceSpell.left()
+        if not self.active:
+            self.spell.left()
 
     def face_right(self):
-        super().face_right()
-        self.iceSpell.right()
+        if not self.active:
+            self.spell.right()
 
-    def updateIceSpell(self):
-        self.iceSpell.update()
-        if self.iceSpell.finished:
+    def update(self):
+        self.spell.update()
+        if self.spell.finished:
             self.reset()
 
     def blitme(self):
-        super().blitme()
-
-        if self.using_spell:
-            self.iceSpell.blitme()
-
-
-class ElfWeapon(Weapon):
-
-    def __init__(self, screen, game_settings, rect, weapon='d'):
-        super().__init__(screen, game_settings, rect, weapon)
+        self.spell.blitme()

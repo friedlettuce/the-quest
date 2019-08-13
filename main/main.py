@@ -44,9 +44,9 @@ def run_game():
     if char_select == 'wizard':
         player = characters.Wizard(game_settings, screen, weapon)
     elif char_select == 'elf':
-        player = characters.Elf(game_settings, screen, weapon)
+        player = characters.Hero(game_settings, screen, 'elf', weapon)
     else:
-        player = characters.Knight(game_settings, screen, weapon)
+        player = characters.Hero(game_settings, screen, 'knight', weapon)
 
     while True:
 

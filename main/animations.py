@@ -33,30 +33,30 @@ class Animation:
         self.facing_right = True
 
     def update(self):
-        self.frame += 1
-        self.frame %= self.frames
-
         if self.facing_right:
             self.image = self.frames_r[self.frame]
         else:
             self.image = self.frames_l[self.frame]
 
+        self.frame += 1
+        self.frame %= self.frames
+
     def blitme(self, rect):
         self.screen.blit(self.image, rect)
 
 
-class IceSpell(Animation):
+class Spell(Animation):
 
-    def __init__(self, screen, rect, game_settings):
-        super().__init__(screen, game_settings.ice_path,
-                         game_settings.ice_frames, game_settings.ice_size)
+    def __init__(self, screen, rect, game_settings, spell_path, spell_frames):
+        super().__init__(screen, spell_path,
+                         spell_frames, game_settings.p_spell_size)
 
         self.rect = rect.copy()
         self.finished = False
         self.collision = False
         self.collisionRect = 0
 
-        self.speed = game_settings.ice_speed
+        self.speed = game_settings.p_spell_speed
 
     def reset(self, rect):
         self.rect = rect.copy()
@@ -78,16 +78,15 @@ class IceSpell(Animation):
             else:
                 self.image = self.frames_l[self.frame]
 
-            if self.frame == 10:
-                self.finished = True
-
             if not self.collision:
                 if self.facing_right:
                     self.rect.centerx += self.speed
                 else:
                     self.rect.centerx -= self.speed
 
-        self.frame += 1
+            self.frame += 1
+            if self.frame == self.frames:
+                self.finished = True
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)

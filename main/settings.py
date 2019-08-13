@@ -34,11 +34,20 @@ class Settings:
         self.hit_frames = 4
         self.hit_size = 16, 16
 
-        self.ice_path = '../resources/animations/ice_shard/ice_spell'
-        self.ice_frames = 11
-        self.ice_size = 32, 32
-        self.ice_damage = 4
-        self.ice_speed = 25
+        self.ice_spell = {
+            'name': 'ice spell',
+            'path': '../resources/animations/ice_shard/ice_spell',
+            'frames': 11,
+            'dmg':  2
+        }
+        self.fire_spell = {
+            'name': 'fireball',
+            'path': '../resources/animations/fireball/fireball',
+            'frames': 8,
+            'dmg': 3
+        }
+        self.p_spell_size = 32, 32
+        self.p_spell_speed = 25
 
     def setWeaponDamage(self, weapon):
         if weapon == 'a':
