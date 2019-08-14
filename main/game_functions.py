@@ -2,7 +2,7 @@ import sys, pygame
 import characters
 
 
-def check_events(player, mobs):
+def check_events(background, player, mobs):
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -11,8 +11,10 @@ def check_events(player, mobs):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.right()
+                background.right(player.speed)
             elif event.key == pygame.K_LEFT:
                 player.left()
+                background.left(player.speed)
             elif event.key == pygame.K_q:
                 player.use_weapon()
             elif event.key == pygame.K_w and player.name == 'wizard':
@@ -27,8 +29,10 @@ def check_events(player, mobs):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 player.moving_right = False
+                background.moving_right = False
             if event.key == pygame.K_LEFT:
                 player.moving_left = False
+                background.moving_right = False
 
 
 def update_mobs(game_settings, screen, mobs, player):

@@ -50,11 +50,12 @@ def run_game():
 
     while True:
 
-        gf.check_events(player, mobs)
+        gf.check_events(forrest, player, mobs)
 
         for mob in mobs.sprites():
             player.check_collision(mob)
         player.update()
+        forrest.update()
 
         if player.hp <= 0:
             print('Game Over')
