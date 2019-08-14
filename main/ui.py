@@ -56,9 +56,16 @@ class HoverHealth:
         empty_bar = game_settings.empty_bar
         health_bar = game_settings.health_bar
 
-        self.emptyHB = EnemyBar(screen, game_settings, rect, empty_bar)
+        self.emptyHB = EnemyBar(screen, game_settings, rect,
+                                game_settings.empty_bar)
+        print(hp)
         self.healthBar = EnemyBar(screen, game_settings, rect,
-                             health_bar, hp)
+                             game_settings.health_bar, hp)
+
+    def update(self, centx, hp):
+        self.emptyHB.rect.centerx = centx
+        self.healthBar.rect.centerx = centx
+        self.healthBar.hp = hp
 
     def blitme(self):
         self.emptyHB.blitme()
@@ -71,7 +78,7 @@ class EnemyBar:
         self.screen = screen
         self.screen_rect = screen.get_rect()
         self.hp = hp
-        self.baseHp = copy(self.hp)
+        self.baseHp = self.hp
 
         self.image = pygame.image.load(bar)
         self.image = pygame.transform.scale(
@@ -79,7 +86,7 @@ class EnemyBar:
         self.rect = self.image.get_rect()
 
         self.rect.centerx = rect.centerx
-        self.rect.centery = rect.centery
+        self.rect.centery = rect.top - 5
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)

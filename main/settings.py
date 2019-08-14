@@ -8,8 +8,8 @@ class Settings:
 
         self.statusBarX = 103
         self.statusBarY = 14
-        self.enemyBarX = 50
-        self.enemyBarY = 50
+        self.enemyBarX = 35
+        self.enemyBarY = 7
         self.empty_bar = '../resources/ui/EmptyBar.png'
         self.health_bar = '../resources/ui/RedBar.png'
         self.mana_bar = '../resources/ui/BlueBar.png'
@@ -26,7 +26,11 @@ class Settings:
         self.mobs_allowed = 2
 
         self.knightHP = 20
+
         self.wizardHP = 10
+        self.wizardMana = 60
+        self.wizardManaRegen = .125
+
         self.elfHP = 15
 
         self.bigDemonHP = 9
@@ -43,16 +47,19 @@ class Settings:
             'name': 'ice spell',
             'path': '../resources/animations/ice_shard/ice_spell',
             'frames': 11,
-            'dmg':  2
+            'cost': 5,
+            'speed': 30,
+            'dmg':  1
         }
         self.fire_spell = {
             'name': 'fireball',
             'path': '../resources/animations/fireball/fireball',
             'frames': 8,
-            'dmg': 3
+            'cost': 10,
+            'speed': 20,
+            'dmg': 2
         }
         self.p_spell_size = 32, 32
-        self.p_spell_speed = 25
 
     def setWeaponDamage(self, weapon):
         if weapon == 'a':

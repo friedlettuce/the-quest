@@ -47,22 +47,24 @@ class Animation:
 
 class Spell(Animation):
 
-    def __init__(self, screen, rect, game_settings, spell_path, spell_frames):
-        super().__init__(screen, spell_path,
-                         spell_frames, game_settings.p_spell_size)
+    def __init__(self, screen, rect, game_settings, spell):
+        super().__init__(screen, spell['path'],
+                         spell['frames'], game_settings.p_spell_size)
 
         self.rect = rect.copy()
         self.finished = False
         self.collision = False
+        self.collided = False
         self.collisionRect = 0
 
-        self.speed = game_settings.p_spell_speed
+        self.speed = spell['speed']
 
     def reset(self, rect):
         self.rect = rect.copy()
         self.frame = 0
         self.finished = False
         self.collision = False
+        self.collided = False
 
     def collisionRectSet(self, collisionRect):
         self.rect.centerx = collisionRect.centerx
@@ -78,11 +80,13 @@ class Spell(Animation):
             else:
                 self.image = self.frames_l[self.frame]
 
-            if not self.collision:
+            if not self.collision and not self.collided:
                 if self.facing_right:
                     self.rect.centerx += self.speed
                 else:
                     self.rect.centerx -= self.speed
+            else:
+                self.collided = True
 
             self.frame += 1
             if self.frame == self.frames:

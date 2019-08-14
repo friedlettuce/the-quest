@@ -33,8 +33,6 @@ class Player(Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
         self.npc = True
-        self.hp = 10
-        self.damage = 0
 
     def load_frames(self):
         self.image = pygame.image.load(
@@ -126,7 +124,7 @@ class Hero(Player):
         self.hp = self.baseHp = self.mana = self.baseMana = 0
 
         if hero == 'knight':
-            self.hp = self.baseHp = 20
+            self.hp = self.baseHp = game_settings.knightHP
 
             if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
                 self.weapon = Weapon(
@@ -135,8 +133,8 @@ class Hero(Player):
                 self.weapon = Weapon(screen, game_settings, self.rect, 'ks')
 
         elif hero == 'wizard':
-            self.hp = self.baseHp = 10
-            self.mana = self.baseMana = 20
+            self.hp = self.baseHp = game_settings.wizardHP
+            self.mana = self.baseMana = game_settings.wizardMana
 
             if weapon == 'g' or weapon == 'r':
                 self.weapon = Weapon(
@@ -145,7 +143,7 @@ class Hero(Player):
                 self.weapon = Weapon(screen, game_settings, self.rect, 'g')
 
         elif hero == 'elf':
-            self.hp = self.baseHp = 15
+            self.hp = self.baseHp = game_settings.impHP
 
             if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
                 self.weapon = Weapon(screen, game_settings, self.rect, weapon)
@@ -201,12 +199,12 @@ class Wizard(Hero):
         super().__init__(game_settings, screen, self.name, weapon)
         self.ui = UI(screen, game_settings, True)
 
+        self.manaRegen = game_settings.wizardManaRegen
+
         self.iceSpell = ProjectileSpell(
-            screen, game_settings, self.rect, game_settings.ice_spell['path'],
-            game_settings.ice_spell['frames'], game_settings.ice_spell['dmg'])
+            screen, game_settings, self.rect, game_settings.ice_spell)
         self.fireSpell = ProjectileSpell(
-            screen, game_settings, self.rect, game_settings.fire_spell['path'],
-            game_settings.fire_spell['frames'], game_settings.fire_spell['dmg'])
+            screen, game_settings, self.rect, game_settings.fire_spell)
 
         self.spell_counter = 0
         self.spells = [self.iceSpell, self.fireSpell]
@@ -222,8 +220,10 @@ class Wizard(Hero):
 
     def use_spell(self):
         if self.weapon.toggled:
-            self.spell.reset()
-            self.spell.active = True
+            if (self.mana - self.spell.cost) >= 0:
+                self.spell.reset()
+                self.spell.active = True
+                self.mana -= self.spell.cost
 
     def switch_spell(self):
         if self.spell.active:
@@ -244,6 +244,9 @@ class Wizard(Hero):
 
     def update(self):
         super().update()
+
+        if self.mana < self.baseMana:
+            self.mana += self.manaRegen
 
         if self.spell.active:
             self.spell.update()
@@ -293,6 +296,8 @@ class Mob(Player):
         if self.rect.centerx <= 17 and not self.collision:
             self.center -= self.speed
 
+        self.healthBar.update(int(self.center), self.hp)
+
     def blitme(self):
         super().blitme()
         self.healthBar.blitme()
@@ -302,20 +307,20 @@ class BigDemon(Mob):
 
     def __init__(self, game_settings, screen):
         self.name = 'big demon'
-        path = '../resources/' + 'demons/' + 'big_demon' + '/' + 'big_demon'
-        super().__init__(game_settings, screen, path)
-
         self.hp = game_settings.bigDemonHP
         self.damage = game_settings.bigDemonDamage
+
+        path = '../resources/' + 'demons/' + 'big_demon' + '/' + 'big_demon'
+        super().__init__(game_settings, screen, path)
 
 
 class Imp(Mob):
 
     def __init__(self, game_settings, screen):
         self.name = 'imp'
-        path = '../resources/' + 'demons/' + 'imp' + '/' + 'imp'
-        super().__init__(game_settings, screen, path)
-
         self.hp = game_settings.impHP
         self.damage = game_settings.impDamage
+
+        path = '../resources/' + 'demons/' + 'imp' + '/' + 'imp'
+        super().__init__(game_settings, screen, path)
 

@@ -97,13 +97,12 @@ class Weapon(Sprite):
 
 class ProjectileSpell(Sprite):
 
-    def __init__(self, screen, game_settings, rect, spell_path, spell_frames,
-                 spell_dmg):
+    def __init__(self, screen, game_settings, rect, spell):
         super().__init__()
 
-        self.spell = Spell(screen, rect, game_settings,
-                           spell_path, spell_frames)
-        self.p_spell_damage = spell_dmg
+        self.spell = Spell(screen, rect, game_settings, spell)
+        self.p_spell_damage = spell['dmg']
+        self.cost = spell['cost']
         self.active = False
         self.weapon_rect = rect
 
