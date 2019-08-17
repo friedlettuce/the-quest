@@ -11,10 +11,10 @@ def check_events(background, player, mobs):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.right()
-                background.right(player.speed)
+                # background.right(player.speed)
             elif event.key == pygame.K_LEFT:
                 player.left()
-                background.left(player.speed)
+                # background.left(player.speed)
             elif event.key == pygame.K_q:
                 player.use_weapon()
             elif event.key == pygame.K_w and player.name == 'wizard':
@@ -29,10 +29,16 @@ def check_events(background, player, mobs):
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 player.moving_right = False
-                background.moving_right = False
+                # background.moving_right = False
             if event.key == pygame.K_LEFT:
                 player.moving_left = False
-                background.moving_right = False
+                # background.moving_right = False
+
+
+def check_welc():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
 
 
 def update_mobs(game_settings, screen, mobs, player):
@@ -54,8 +60,6 @@ def update_mobs(game_settings, screen, mobs, player):
 
 
 def update_screen(game_settings, screen, clock, forrest, player, mobs):
-
-    screen.fill(game_settings.bg_color)
 
     forrest.blitme()
 

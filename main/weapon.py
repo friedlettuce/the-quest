@@ -110,7 +110,6 @@ class ProjectileSpell(Sprite):
         if pygame.sprite.collide_mask(self.spell, sprite):
             if not self.spell.collision:
                 sprite.hp -= self.p_spell_damage
-                print(sprite.name, 'hit. HP: ', sprite.hp)
 
             self.spell.collision = True
             self.spell.collisionRectSet(sprite.rect)

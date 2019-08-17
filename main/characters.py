@@ -175,7 +175,6 @@ class Hero(Player):
                 sprite.hp -= self.weapon.damage
                 if sprite.hp < 0:
                     sprite.hp = 0
-                print(sprite.name, 'hit. HP: ', sprite.hp)
 
             self.hit += 1
         else:
@@ -287,7 +286,6 @@ class Mob(Player):
                 sprite.hp -= self.damage
                 if sprite.hp < 0:
                     sprite.hp = 0
-                print(sprite.name, 'hit. HP: ', sprite.hp)
             self.hit += 1
 
     def update(self, player):

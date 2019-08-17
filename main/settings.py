@@ -2,9 +2,16 @@ class Settings:
 
     def __init__(self):
 
+        self.playing = False
         self.screen_width = 768
         self.screen_height = 448
-        self.bg_color = (230, 230, 230)
+        self.forestFile = '../resources/backgrounds/forest3.png'
+
+        self.button_width = 200
+        self.button_height = 100
+        self.button_font = 24
+        self.button_color = (255, 255, 255)
+        self.btxt_color = (128, 128, 128)
 
         self.statusBarX = 103
         self.statusBarY = 14

@@ -2,11 +2,36 @@ import pygame
 from building import Building
 
 
-class Background:
+class WelcomeScreen:
 
-    def __init__(self, game_settings, screen, file):
-        self.landscape1 = Landscape(game_settings, screen, file)
-        self.landscape2 = Landscape(game_settings, screen, file)
+    def __init__(self, screen, game_settings):
+        self.screen = screen
+        self.background = Landscape(game_settings, screen,
+                                    game_settings.forestFile)
+
+        large_text = pygame.font.SysFont('harrington', 75, True)
+        self.text = large_text.render("Side Scroller", True, (128, 128, 128))
+        self.textRect = self.text.get_rect()
+        self.textRect.center = ((game_settings.screen_width / 2),
+                                 (game_settings.screen_height / 2) - 30)
+
+        self.button = Button(game_settings, screen, 'Wizard')
+        self.button.rect.centery = self.screen.get_rect().centery + 140
+        self.button.rect.centerx = self.screen.get_rect().centerx / 2
+
+    def draw(self):
+        self.background.blitme()
+        self.screen.blit(self.text, self.textRect)
+        self.button.blitme()
+
+
+class ForestBackground:
+
+    def __init__(self, game_settings, screen):
+        self.landscape1 = Landscape(game_settings, screen,
+                                    game_settings.forestFile)
+        self.landscape2 = Landscape(game_settings, screen,
+                                    game_settings.forestFile)
         self.landscape2.rect.left = self.landscape2.right()
 
         self.moving_left = self.moving_right = False
@@ -54,9 +79,6 @@ class Landscape:
         self.image = pygame.transform.scale(
             pygame.image.load(file),
             [game_settings.screen_width, game_settings.screen_height])
-        self.image = pygame.transform.scale(
-            pygame.image.load(file),
-            [game_settings.screen_width, game_settings.screen_height])
 
         self.rect = self.image.get_rect()
         self.rect.centerx = self.screen_rect.centerx
@@ -69,3 +91,34 @@ class Landscape:
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
+
+
+class Button:
+
+    def __init__(self, game_settings, screen, msg):
+        self.screen = screen
+        self.screen_rect = screen.get_rect()
+
+        self.width = game_settings.button_width
+        self.height = game_settings.button_height
+        self.button_color = game_settings.button_color
+        self.text_color = game_settings.btxt_color
+        self.font = pygame.font.SysFont(None, game_settings.button_font)
+
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.rect.center = self.screen_rect.center
+
+        self.set_msg(msg)
+
+    def set_msg(self, msg):
+        self.msg_image = self.font.render(msg, True, self.text_color,
+                                          self.button_color)
+        self.msg_rect = self.msg_image.get_rect()
+        self.msg_rect.center = self.rect.center
+
+    def set_rect(self, rect):
+        self.msg_rect.center = rect.center
+        self.rect.center = rect.center
+
+    def blitme(self):
+        self.screen.blit(self.msg_image, self.rect)

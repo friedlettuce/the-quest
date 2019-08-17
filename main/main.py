@@ -4,7 +4,7 @@ from pygame.sprite import Group
 from settings import Settings
 import game_functions as gf
 
-from background import Background
+from background import ForestBackground, WelcomeScreen
 import characters
 
 
@@ -38,8 +38,8 @@ def run_game():
         (game_settings.screen_width, game_settings.screen_height))
     pygame.display.set_caption("Dungeon Capture")
 
-    forrest = Background(
-        game_settings, screen, '../resources/backgrounds/forest3.png')
+    welc_screen = WelcomeScreen(screen, game_settings)
+    forrest = ForestBackground(game_settings, screen)
 
     if char_select == 'wizard':
         player = characters.Wizard(game_settings, screen, weapon)
@@ -48,7 +48,12 @@ def run_game():
     else:
         player = characters.Hero(game_settings, screen, 'knight', weapon)
 
-    while True:
+    while not game_settings.playing:
+        gf.check_welc()
+        welc_screen.draw()
+        pygame.display.flip()
+
+    while game_settings.playing:
 
         gf.check_events(forrest, player, mobs)
 
@@ -58,8 +63,7 @@ def run_game():
         forrest.update()
 
         if player.hp <= 0:
-            print('Game Over')
-            sys.exit()
+            game_settings.playing = False
 
         gf.update_mobs(game_settings, screen, mobs, player)
 

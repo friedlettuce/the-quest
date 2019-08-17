@@ -58,7 +58,6 @@ class HoverHealth:
 
         self.emptyHB = EnemyBar(screen, game_settings, rect,
                                 game_settings.empty_bar)
-        print(hp)
         self.healthBar = EnemyBar(screen, game_settings, rect,
                              game_settings.health_bar, hp)
 
