@@ -8,9 +8,7 @@ from background import ForestBackground, WelcomeScreen
 import characters
 
 
-def character_creation():
-    print("Wizard, Elf, or Knight")
-    char_select = input('-> ').lower()
+def character_creation(char_select):
 
     if char_select == 'wizard':
         print('Choose green staff[g] or red staff[r]')
@@ -22,11 +20,10 @@ def character_creation():
         exit(1)
 
     weapon = input('-> ').lower()
-    return char_select, weapon
+    return weapon
 
 
 def run_game():
-    char_select, weapon = character_creation()
     player = ''
     mobs = Group()
 
@@ -38,8 +35,17 @@ def run_game():
         (game_settings.screen_width, game_settings.screen_height))
     pygame.display.set_caption("Dungeon Capture")
 
-    # welc_screen = WelcomeScreen(screen, game_settings)
+    welc_screen = WelcomeScreen(screen, game_settings)
     forrest = ForestBackground(game_settings, screen)
+
+    # Setup for character
+    while True:
+        char_select = gf.check_welc(welc_screen)
+        if char_select:
+            weapon = character_creation(char_select.lower())
+            break
+        welc_screen.draw()
+        pygame.display.flip()
 
     if char_select == 'wizard':
         player = characters.Wizard(game_settings, screen, weapon)

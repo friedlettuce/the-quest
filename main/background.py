@@ -15,14 +15,28 @@ class WelcomeScreen:
         self.textRect.center = ((game_settings.screen_width / 2),
                                  (game_settings.screen_height / 2) - 30)
 
-        self.button = Button(game_settings, screen, 'Wizard')
-        self.button.rect.centery = self.screen.get_rect().centery + 140
-        self.button.rect.centerx = self.screen.get_rect().centerx / 2
+        self.wbutton = Button(game_settings, screen, 'Wizard')
+        self.wbutton.rect.centery = self.screen.get_rect().centery + 140
+        self.wbutton.rect.centerx = self.screen.get_rect().centerx / 2
+
+        self.kbutton = Button(game_settings, screen, 'Knight')
+        self.kbutton.rect.centery = self.screen.get_rect().centery + 140
+        # Setting equal to centerx of screen was offset left, just added half distance between wizard pos.
+        self.kbutton.rect.centerx = self.screen.get_rect().centerx / 2 + (
+                ((self.screen.get_rect().centerx * 2) - (self.screen.get_rect().centerx / 2))/2)
+
+        self.ebutton = Button(game_settings, screen, 'Elf')
+        self.ebutton.rect.centery = self.screen.get_rect().centery + 140
+        self.ebutton.rect.centerx = self.screen.get_rect().centerx * 2
+
+        self.characters = [self.wbutton, self.kbutton, self.ebutton]
 
     def draw(self):
         self.background.blitme()
         self.screen.blit(self.text, self.textRect)
-        self.button.blitme()
+        self.wbutton.blitme()
+        self.kbutton.blitme()
+        self.ebutton.blitme()
 
 
 class ForestBackground:
@@ -104,6 +118,7 @@ class Button:
         self.button_color = game_settings.button_color
         self.text_color = game_settings.btxt_color
         self.font = pygame.font.SysFont(None, game_settings.button_font)
+        self.text = msg
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center

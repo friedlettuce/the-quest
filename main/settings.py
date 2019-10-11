@@ -2,7 +2,6 @@ class Settings:
 
     def __init__(self):
 
-        self.playing = False
         self.screen_width = 768
         self.screen_height = 448
         self.forestFile = '../resources/backgrounds/forest3.png'
