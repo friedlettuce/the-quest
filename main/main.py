@@ -38,7 +38,7 @@ def run_game():
         (game_settings.screen_width, game_settings.screen_height))
     pygame.display.set_caption("Dungeon Capture")
 
-    welc_screen = WelcomeScreen(screen, game_settings)
+    # welc_screen = WelcomeScreen(screen, game_settings)
     forrest = ForestBackground(game_settings, screen)
 
     if char_select == 'wizard':
@@ -48,12 +48,7 @@ def run_game():
     else:
         player = characters.Hero(game_settings, screen, 'knight', weapon)
 
-    while not game_settings.playing:
-        gf.check_welc()
-        welc_screen.draw()
-        pygame.display.flip()
-
-    while game_settings.playing:
+    while True:
 
         gf.check_events(forrest, player, mobs)
 
