@@ -4,7 +4,6 @@ from pygame.sprite import Sprite
 from ui import UI, HoverHealth
 from weapon import Weapon, ProjectileSpell
 
-
 class Player(Sprite):
 
     def __init__(self, game_settings, screen, path):
@@ -123,32 +122,20 @@ class Hero(Player):
         self.hit = 0
         self.hp = self.baseHp = self.mana = self.baseMana = 0
 
-        if hero == 'knight':
-            self.hp = self.baseHp = game_settings.knightHP
+        # Sets character hp/mana/weapon through dictionaries in settings
+        for char in game_settings.characters:
+            if hero == char['NAME']:
+                self.hp = self.baseHp = char['HP']
 
-            if weapon == 'bs' or weapon == 'bh' or weapon == 'ks':
-                self.weapon = Weapon(
-                    screen, game_settings, self.rect, weapon)
-            else:
-                self.weapon = Weapon(screen, game_settings, self.rect, 'ks')
+                if weapon in char["WEAPONS"]:
+                    self.weapon = Weapon(screen, game_settings, self.rect, weapon)
+                else:
+                    self.weapon = Weapon(screen, game_settings, self.rect, char['WEAPONS'][0])
 
-        elif hero == 'wizard':
-            self.hp = self.baseHp = game_settings.wizardHP
-            self.mana = self.baseMana = game_settings.wizardMana
-
-            if weapon == 'g' or weapon == 'r':
-                self.weapon = Weapon(
-                    screen, game_settings, self.rect, weapon)
-            else:
-                self.weapon = Weapon(screen, game_settings, self.rect, 'g')
-
-        elif hero == 'elf':
-            self.hp = self.baseHp = game_settings.impHP
-
-            if weapon == 'a' or weapon == 'b' or weapon == 'c' or weapon == 'd':
-                self.weapon = Weapon(screen, game_settings, self.rect, weapon)
-            else:
-                self.weapon = Weapon(screen, game_settings, self.rect, 'd')
+        if hero not in [char['NAME'] for char in game_settings.characters]:
+            self.name = hero = game_settings.characters[0]['NAME']
+            self.hp = self.baseHp = game_settings.characters[0]['HP']
+            self.weapon = Weapon(screen, game_settings, self.rect, game_settings.characters[0]['WEAPONS'][0])
 
         self.npc = False
         self.ui = UI(screen, game_settings)
@@ -194,11 +181,13 @@ class Hero(Player):
 class Wizard(Hero):
 
     def __init__(self, game_settings, screen, weapon):
-        self.name = 'wizard'
-        super().__init__(game_settings, screen, self.name, weapon)
+        super().__init__(game_settings, screen, 'wizard', weapon)
         self.ui = UI(screen, game_settings, True)
 
-        self.manaRegen = game_settings.wizardManaRegen
+        self.spell_sound = pygame.mixer.Sound('../resources/wizard/sound1-2x-crop31.wav')
+
+        self.mana = self.baseMana = game_settings.wizard['MANA']
+        self.manaRegen = game_settings.wizard['MANAREGEN']
 
         self.iceSpell = ProjectileSpell(
             screen, game_settings, self.rect, game_settings.ice_spell)
@@ -220,6 +209,7 @@ class Wizard(Hero):
     def use_spell(self):
         if self.weapon.toggled:
             if (self.mana - self.spell.cost) >= 0:
+                self.spell_sound.play(0, 2000, 1000)
                 self.spell.reset()
                 self.spell.active = True
                 self.mana -= self.spell.cost

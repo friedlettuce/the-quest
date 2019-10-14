@@ -35,6 +35,7 @@ def run_game():
     mobs = Group()
 
     pygame.init()
+    pygame.mixer.init()
     clock = pygame.time.Clock()
     game_settings = Settings()
 
@@ -50,6 +51,7 @@ def run_game():
     while True:
         char_select = gf.check_welc(welc_screen)
         if char_select:
+            print(char_select)
             weapon = character_creation(char_select)
             break
         welc_screen.draw()

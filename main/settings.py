@@ -31,13 +31,24 @@ class Settings:
         self.mob_speed = 3
         self.mobs_allowed = 2
 
-        self.knightHP = 20
-
-        self.wizardHP = 10
-        self.wizardMana = 60
-        self.wizardManaRegen = .125
-
-        self.elfHP = 15
+        self.wizard = {
+            'NAME': 'wizard',
+            'HP': 10,
+            'MANA': 60,
+            'MANAREGEN': .125,
+            'WEAPONS': ['g', 'r']
+        }
+        self.knight = {
+            'NAME': 'knight',
+            'HP': 20,
+            'WEAPONS': ['bs', 'bh', 'ks']
+        }
+        self.elf = {
+            'NAME': 'elf',
+            'HP': 15,
+            'WEAPONS': ['a', 'b', 'c', 'd']
+        }
+        self.characters = [self.wizard, self.knight, self.elf]
 
         self.bigDemonHP = 9
         self.impHP = 3
