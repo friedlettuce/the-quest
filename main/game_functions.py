@@ -44,6 +44,7 @@ def check_welc(welc_screen):
 
             for char in welc_screen.characters:
                 if char.rect.collidepoint(mouse_pos):
+                    print(welc_screen.wbutton.text)
                     return welc_screen.wbutton.text
 
 

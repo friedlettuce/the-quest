@@ -9,7 +9,7 @@ import characters
 
 
 def character_creation(char_select):
-
+    '''
     if char_select == 'wizard':
         print('Choose green staff[g] or red staff[r]')
     elif char_select == 'elf':
@@ -18,8 +18,15 @@ def character_creation(char_select):
         print('Choose big sword[bs], big hammer[bh], knight sword[ks]')
     else:
         exit(1)
+    '''
+    # weapon = input('-> ').lower()
+    if char_select == 'wizard':
+        weapon = 'g'
+    elif char_select == 'elf':
+        weapon = 'd'
+    elif char_select == 'knight':
+        'ks'
 
-    weapon = input('-> ').lower()
     return weapon
 
 
@@ -38,10 +45,12 @@ def run_game():
     welc_screen = WelcomeScreen(screen, game_settings)
     forrest = ForestBackground(game_settings, screen)
 
+    char_select = ''
     # Setup for character
     while True:
         char_select = gf.check_welc(welc_screen)
         if char_select:
+            char_select = char_select.lower()
             weapon = character_creation(char_select.lower())
             break
         welc_screen.draw()

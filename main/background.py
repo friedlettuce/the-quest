@@ -17,17 +17,17 @@ class WelcomeScreen:
 
         self.wbutton = Button(game_settings, screen, 'Wizard')
         self.wbutton.rect.centery = self.screen.get_rect().centery + 140
-        self.wbutton.rect.centerx = self.screen.get_rect().centerx / 2
+        w_cx = float(self.screen.get_rect().centerx / 1.5)
+        self.wbutton.rect.centerx = int(w_cx)
 
         self.kbutton = Button(game_settings, screen, 'Knight')
         self.kbutton.rect.centery = self.screen.get_rect().centery + 140
         # Setting equal to centerx of screen was offset left, just added half distance between wizard pos.
-        self.kbutton.rect.centerx = self.screen.get_rect().centerx / 2 + (
-                ((self.screen.get_rect().centerx * 2) - (self.screen.get_rect().centerx / 2))/2)
+        self.kbutton.rect.centerx = int(self.screen.get_rect().centerx)
 
         self.ebutton = Button(game_settings, screen, 'Elf')
         self.ebutton.rect.centery = self.screen.get_rect().centery + 140
-        self.ebutton.rect.centerx = self.screen.get_rect().centerx * 2
+        self.ebutton.rect.centerx = self.screen.get_rect().centerx * 1.5
 
         self.characters = [self.wbutton, self.kbutton, self.ebutton]
 
