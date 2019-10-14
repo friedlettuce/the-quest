@@ -50,8 +50,7 @@ def run_game():
     while True:
         char_select = gf.check_welc(welc_screen)
         if char_select:
-            char_select = char_select.lower()
-            weapon = character_creation(char_select.lower())
+            weapon = character_creation(char_select)
             break
         welc_screen.draw()
         pygame.display.flip()

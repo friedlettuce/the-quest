@@ -13,20 +13,20 @@ class WelcomeScreen:
         self.text = large_text.render("Side Scroller", True, (128, 128, 128))
         self.textRect = self.text.get_rect()
         self.textRect.center = ((game_settings.screen_width / 2),
-                                 (game_settings.screen_height / 2) - 30)
+                                (game_settings.screen_height / 2) - 30)
 
-        offset = 75
+        offset = int(game_settings.screen_width * .09765625)
 
-        self.wbutton = Button(game_settings, screen, 'Wizard')
+        self.wbutton = Button(game_settings, screen, 'wizard')
         self.wbutton.rect.centery = self.screen.get_rect().centery + 140
         self.wbutton.rect.centerx = int(self.screen.get_rect().right / 3) + offset
 
-        self.kbutton = Button(game_settings, screen, 'Knight')
+        self.kbutton = Button(game_settings, screen, 'knight')
         self.kbutton.rect.centery = self.screen.get_rect().centery + 140
         # Setting equal to centerx of screen was offset left, just added half distance between wizard pos.
         self.kbutton.rect.centerx = int(self.screen.get_rect().right / 2) + offset
 
-        self.ebutton = Button(game_settings, screen, 'Elf')
+        self.ebutton = Button(game_settings, screen, 'elf')
         self.ebutton.rect.centery = self.screen.get_rect().centery + 140
         self.ebutton.rect.centerx = int(self.screen.get_rect().right * 2/3) + offset
 
@@ -114,27 +114,17 @@ class Button:
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
-        self.width = game_settings.button_width
-        self.height = game_settings.button_height
         self.button_color = game_settings.button_color
         self.text_color = game_settings.btxt_color
         self.font = pygame.font.SysFont(None, game_settings.button_font)
         self.text = msg
 
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.rect = pygame.Rect(0, 0, game_settings.button_width,
+                                game_settings.button_height)
         self.rect.center = self.screen_rect.center
 
-        self.set_msg(msg)
-
-    def set_msg(self, msg):
-        self.msg_image = self.font.render(msg, True, self.text_color,
-                                          self.button_color)
-        self.msg_rect = self.msg_image.get_rect()
-        self.msg_rect.center = self.rect.center
-
-    def set_rect(self, rect):
-        self.msg_rect.center = rect.center
-        self.rect.center = rect.center
+        self.msg_image = self.font.render(
+            msg, True, self.text_color, self.button_color)
 
     def blitme(self):
         self.screen.blit(self.msg_image, self.rect)

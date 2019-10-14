@@ -39,12 +39,19 @@ def check_welc(welc_screen):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        elif event.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
+
+            char_tmp = ''
 
             for char in welc_screen.char_buttons:
                 if char.rect.collidepoint(mouse_pos):
-                    print("Mouse clicked" + char.text)
+                    char_tmp = char.text
+
+            if char_tmp:
+                return char_tmp
+            else:
+                return ''
 
 
 def update_mobs(game_settings, screen, mobs, player):
