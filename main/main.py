@@ -19,7 +19,7 @@ def character_creation(char_select):
     else:
         exit(1)
     '''
-    # weapon = input('-> ').lower()
+    weapon = '' # input('-> ').lower()
     if char_select == 'wizard':
         weapon = 'g'
     elif char_select == 'elf':

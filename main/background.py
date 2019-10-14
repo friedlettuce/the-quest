@@ -15,21 +15,22 @@ class WelcomeScreen:
         self.textRect.center = ((game_settings.screen_width / 2),
                                  (game_settings.screen_height / 2) - 30)
 
+        offset = 75
+
         self.wbutton = Button(game_settings, screen, 'Wizard')
         self.wbutton.rect.centery = self.screen.get_rect().centery + 140
-        w_cx = float(self.screen.get_rect().centerx / 1.5)
-        self.wbutton.rect.centerx = int(w_cx)
+        self.wbutton.rect.centerx = int(self.screen.get_rect().right / 3) + offset
 
         self.kbutton = Button(game_settings, screen, 'Knight')
         self.kbutton.rect.centery = self.screen.get_rect().centery + 140
         # Setting equal to centerx of screen was offset left, just added half distance between wizard pos.
-        self.kbutton.rect.centerx = int(self.screen.get_rect().centerx)
+        self.kbutton.rect.centerx = int(self.screen.get_rect().right / 2) + offset
 
         self.ebutton = Button(game_settings, screen, 'Elf')
         self.ebutton.rect.centery = self.screen.get_rect().centery + 140
-        self.ebutton.rect.centerx = self.screen.get_rect().centerx * 1.5
+        self.ebutton.rect.centerx = int(self.screen.get_rect().right * 2/3) + offset
 
-        self.characters = [self.wbutton, self.kbutton, self.ebutton]
+        self.char_buttons = [self.wbutton, self.kbutton, self.ebutton]
 
     def draw(self):
         self.background.blitme()
