@@ -80,7 +80,6 @@ class Settings:
         }
         self.p_spell_size = 32, 32
 
-
     def setWeaponDamage(self, weapon):
         if weapon == 'a':
             return 5

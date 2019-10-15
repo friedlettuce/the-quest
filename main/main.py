@@ -44,7 +44,6 @@ def run_game():
     pygame.display.set_caption("Dungeon Capture")
 
     welc_screen = WelcomeScreen(screen, game_settings)
-    forrest = ForestBackground(game_settings, screen)
 
     char_select = ''
     # Setup for character
@@ -63,6 +62,9 @@ def run_game():
         player = characters.Hero(game_settings, screen, 'elf', weapon)
     else:
         player = characters.Hero(game_settings, screen, 'knight', weapon)
+
+    welc_screen.sound.stop()
+    forrest = ForestBackground(game_settings, screen)
 
     while True:
 

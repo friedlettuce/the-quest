@@ -193,6 +193,8 @@ class Wizard(Hero):
         self.mana = self.baseMana = game_settings.wizard['MANA']
         self.manaRegen = game_settings.wizard['MANAREGEN']
 
+        self.swing_sound = pygame.mixer.Sound('..resources/wizard/swing-1.wav')
+
         self.iceSpell = ProjectileSpell(
             screen, game_settings, self.rect, game_settings.ice_spell)
         self.fireSpell = ProjectileSpell(
