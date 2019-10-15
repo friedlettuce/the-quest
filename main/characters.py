@@ -190,8 +190,6 @@ class Wizard(Hero):
         super().__init__(game_settings, screen, 'wizard', weapon)
         self.ui = UI(screen, game_settings, True)
 
-        self.spell_sound = pygame.mixer.Sound('../resources/wizard/sound1-2x-crop31.wav')
-
         self.mana = self.baseMana = game_settings.wizard['MANA']
         self.manaRegen = game_settings.wizard['MANAREGEN']
 
@@ -217,7 +215,7 @@ class Wizard(Hero):
 
         if self.weapon.toggled:
             if (self.mana - self.spell.cost) >= 0:
-                self.spell_sound.play(0, 2000, 1000)
+                self.spell.sound.play(0, 2000, 1000)
                 self.spell.reset()
                 self.spell.active = True
                 self.mana -= self.spell.cost

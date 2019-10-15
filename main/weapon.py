@@ -105,6 +105,7 @@ class ProjectileSpell(Sprite):
         self.cost = spell['cost']
         self.active = False
         self.weapon_rect = rect
+        self.sound = pygame.mixer.Sound(spell['sound'])
 
     def checkCollision(self, sprite):
         if pygame.sprite.collide_mask(self.spell, sprite):

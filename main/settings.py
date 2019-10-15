@@ -66,7 +66,8 @@ class Settings:
             'frames': 11,
             'cost': 5,
             'speed': 30,
-            'dmg':  1
+            'dmg':  1,
+            'sound': '../resources/wizard/ice_sound1.wav'
         }
         self.fire_spell = {
             'name': 'fireball',
@@ -74,9 +75,11 @@ class Settings:
             'frames': 8,
             'cost': 10,
             'speed': 20,
-            'dmg': 2
+            'dmg': 2,
+            'sound': '../resources/wizard/fireball_sound1.wav'
         }
         self.p_spell_size = 32, 32
+
 
     def setWeaponDamage(self, weapon):
         if weapon == 'a':
