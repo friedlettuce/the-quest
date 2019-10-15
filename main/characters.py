@@ -119,6 +119,9 @@ class Hero(Player):
         self.rect.bottom = self.screen_rect.bottom - game_settings.floor
         self.center = float(self.rect.centerx)
 
+        self.hit_sound = pygame.mixer.Sound('../resources/heroes/sword_stab-18.wav')
+        self.swing_sound = pygame.mixer.Sound('../resources/heroes/sword_swing-18.wav')
+
         self.hit = 0
         self.hp = self.baseHp = self.mana = self.baseMana = 0
 
@@ -150,6 +153,8 @@ class Hero(Player):
 
     def use_weapon(self):
         self.weapon.using = True
+        if not self.weapon.collision:
+            self.swing_sound.play(0, 2000, 1000)
 
     def check_collision(self, sprite):
         if pygame.sprite.collide_mask(self.weapon, sprite):
@@ -159,6 +164,7 @@ class Hero(Player):
             self.hit %= 5
 
             if self.weapon.using and self.hit == 1:
+                self.hit_sound.play(0, 2000, 1000)
                 sprite.hp -= self.weapon.damage
                 if sprite.hp < 0:
                     sprite.hp = 0
@@ -207,6 +213,8 @@ class Wizard(Hero):
         self.spell.face_right()
 
     def use_spell(self):
+        self.weapon.using = True
+
         if self.weapon.toggled:
             if (self.mana - self.spell.cost) >= 0:
                 self.spell_sound.play(0, 2000, 1000)

@@ -19,7 +19,6 @@ def check_events(background, player, mobs):
                 player.use_weapon()
             elif event.key == pygame.K_w and player.name == 'wizard':
                 if not player.spell.active:
-                    player.use_weapon()
                     player.use_spell()
             elif event.key == pygame.K_e and player.name == 'wizard':
                 player.switch_spell()

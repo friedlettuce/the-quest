@@ -20,7 +20,7 @@ class Settings:
         self.health_bar = '../resources/ui/RedBar.png'
         self.mana_bar = '../resources/ui/BlueBar.png'
 
-        self.fps = 18
+        self.fps = 18  # 15
         self.anicycle = 4
 
         self.floor = 32
