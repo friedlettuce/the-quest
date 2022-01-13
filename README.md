@@ -1,7 +1,7 @@
 ## The Quest
 A small side-scroller implemented with pygame.
 
-##### Characters and Mobs
+#### Characters and Mobs
 Play as fantasy melee characters to kill mobs.
 
 ![Alt Text](https://github.com/gjanderso/the-quest/blob/master/gifs/knight.gif)
