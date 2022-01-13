@@ -12,18 +12,10 @@ by InspectorJ
 - Right arrow : move right
 - Left arrow : move left
 - Q : use weapon
-- V: toggle weapon
+- V: toggle weapon **(need to toggle to use combat)**
 ###### (Wizard)
 - W : use spell
 - E : switch spell
-
-
-##### TODO
-- Refactor ice spell / weapon / player
-- Add more spells/projectile weapons
-- Add moving background
-- Add castle with fortifications
-- Add waves and progressively difficult random mob spawing
 
 ##### Requirements
 - Pygame minimum version 2
