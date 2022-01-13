@@ -3,9 +3,9 @@ A small side-scroller implemented with pygame.
 
 ##### Characters and Mobs
 Play as fantasy melee characters to kill mobs.
-![Alt Text](https://github.com/gjanderso/the-quest/tree/master/gifs/knight.gif)
+![Alt Text](https://github.com/gjanderso/the-quest/blob/master/gifs/knight.gif)
 Play as a wizard to cast ranged spells.
-![Alt Text](https://github.com/gjanderso/the-quest/tree/master/gifs/wizard_ice.gif)
+![Alt Text](https://github.com/gjanderso/the-quest/blob/master/gifs/wizard_ice.gif)
 
 
 ##### How to Play
