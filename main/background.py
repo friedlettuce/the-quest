@@ -14,7 +14,7 @@ class WelcomeScreen:
         pygame.mixer.music.play(-1)
 
         large_text = pygame.font.SysFont('harrington', 75, True)
-        self.text = large_text.render("Side Scroller", True, (128, 128, 128))
+        self.text = large_text.render("The Quest", True, (128, 128, 128))
         self.textRect = self.text.get_rect()
         self.textRect.center = ((game_settings.screen_width / 2),
                                 (game_settings.screen_height / 2) - 30)

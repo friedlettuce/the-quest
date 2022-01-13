@@ -34,7 +34,7 @@ def run_game():
 
     screen = pygame.display.set_mode(
         (game_settings.screen_width, game_settings.screen_height))
-    pygame.display.set_caption("Dungeon Capture")
+    pygame.display.set_caption("The Quest")
 
     welc_screen = WelcomeScreen(screen, game_settings)
 
