@@ -1,5 +1,6 @@
 import sys, pygame
 from pygame.sprite import Group
+import os
 
 from settings import Settings
 import game_functions as gf
@@ -9,16 +10,6 @@ import characters
 
 
 def character_creation(char_select):
-    '''
-    if char_select == 'wizard':
-        print('Choose green staff[g] or red staff[r]')
-    elif char_select == 'elf':
-        print('Choose axe[a], baton[b], cleaver[c], duel sword[d]')
-    elif char_select == 'knight':
-        print('Choose big sword[bs], big hammer[bh], knight sword[ks]')
-    else:
-        exit(1)
-    '''
     weapon = '' # input('-> ').lower()
     if char_select == 'wizard':
         weapon = 'g'
@@ -38,6 +29,8 @@ def run_game():
     pygame.mixer.init()
     clock = pygame.time.Clock()
     game_settings = Settings()
+
+    print(os.getcwd())
 
     screen = pygame.display.set_mode(
         (game_settings.screen_width, game_settings.screen_height))

@@ -1,5 +1,6 @@
 import pygame
-from building import Building
+import building
+import os
 
 
 class WelcomeScreen:
@@ -9,7 +10,7 @@ class WelcomeScreen:
         self.background = Landscape(game_settings, screen,
                                     game_settings.forestFile)
 
-        self.sound = pygame.mixer.Sound('..resources/backgrounds/Lost-Jungle.wav')
+        self.sound = pygame.mixer.Sound('resources/backgrounds/Lost-Jungle.wav')
         self.sound.play(10)
 
         large_text = pygame.font.SysFont('harrington', 75, True)
@@ -52,7 +53,11 @@ class ForestBackground:
                                     game_settings.forestFile)
         self.landscape2.rect.left = self.landscape2.right()
 
-        self.sound = pygame.mixer.Sound('..resources/backgrounds/nature1.wav')
+        if os.path.exists('resources/backgrounds/nature1.wav'):
+            print("Path exists")
+        else:
+            print("Path non-existent")
+        self.sound = pygame.mixer.Sound('resources/backgrounds/nature1.wav')
         self.sound.play(20)
 
         self.moving_left = self.moving_right = False

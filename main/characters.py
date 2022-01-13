@@ -111,7 +111,7 @@ class Player(Sprite):
 class Hero(Player):
 
     def __init__(self, game_settings, screen, hero, weapon):
-        path = '../resources/' + hero + '/' + hero + '_m'
+        path = 'resources/' + hero + '/' + hero + '_m'
         self.name = hero
         super().__init__(game_settings, screen, path)
 
@@ -119,8 +119,8 @@ class Hero(Player):
         self.rect.bottom = self.screen_rect.bottom - game_settings.floor
         self.center = float(self.rect.centerx)
 
-        self.hit_sound = pygame.mixer.Sound('../resources/heroes/sword_stab-18.wav')
-        self.swing_sound = pygame.mixer.Sound('../resources/heroes/sword_swing-18.wav')
+        self.hit_sound = pygame.mixer.Sound('resources/heroes/sword_stab-18.wav')
+        self.swing_sound = pygame.mixer.Sound('resources/heroes/sword_swing-18.wav')
 
         self.hit = 0
         self.hp = self.baseHp = self.mana = self.baseMana = 0
@@ -193,7 +193,7 @@ class Wizard(Hero):
         self.mana = self.baseMana = game_settings.wizard['MANA']
         self.manaRegen = game_settings.wizard['MANAREGEN']
 
-        self.swing_sound = pygame.mixer.Sound('..resources/wizard/swing-1.wav')
+        self.swing_sound = pygame.mixer.Sound('resources/wizard/swing-1.wav')
 
         self.iceSpell = ProjectileSpell(
             screen, game_settings, self.rect, game_settings.ice_spell)
@@ -306,7 +306,7 @@ class BigDemon(Mob):
         self.hp = game_settings.bigDemonHP
         self.damage = game_settings.bigDemonDamage
 
-        path = '../resources/' + 'demons/' + 'big_demon' + '/' + 'big_demon'
+        path = 'resources/' + 'demons/' + 'big_demon' + '/' + 'big_demon'
         super().__init__(game_settings, screen, path)
 
 
@@ -317,6 +317,6 @@ class Imp(Mob):
         self.hp = game_settings.impHP
         self.damage = game_settings.impDamage
 
-        path = '../resources/' + 'demons/' + 'imp' + '/' + 'imp'
+        path = 'resources/' + 'demons/' + 'imp' + '/' + 'imp'
         super().__init__(game_settings, screen, path)
 

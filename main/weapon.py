@@ -25,7 +25,7 @@ class Weapon(Sprite):
 
         # Loads weapon img
         self.image_r = pygame.image.load(
-            '../resources/items/weapon/' + weapon + '.png')
+            'resources/items/weapon/' + weapon + '.png')
         self.image_l = pygame.transform.flip(self.image_r, True, False)
         # Tilts weapon
         self.image_r = pygame.transform.rotate(self.image_r, -self.rotation)

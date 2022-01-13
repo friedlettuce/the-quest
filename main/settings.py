@@ -4,7 +4,7 @@ class Settings:
 
         self.screen_width = 768
         self.screen_height = 448
-        self.forestFile = '../resources/backgrounds/forest3.png'
+        self.forestFile = 'resources/backgrounds/forest3.png'
 
         self.button_width = 200
         self.button_height = 100
@@ -16,9 +16,9 @@ class Settings:
         self.statusBarY = 14
         self.enemyBarX = 35
         self.enemyBarY = 7
-        self.empty_bar = '../resources/ui/EmptyBar.png'
-        self.health_bar = '../resources/ui/RedBar.png'
-        self.mana_bar = '../resources/ui/BlueBar.png'
+        self.empty_bar = 'resources/ui/EmptyBar.png'
+        self.health_bar = 'resources/ui/RedBar.png'
+        self.mana_bar = 'resources/ui/BlueBar.png'
 
         self.fps = 18  # 15
         self.anicycle = 4
@@ -56,27 +56,27 @@ class Settings:
         self.impDamage = (self.impHP / 4) + 1
 
         # Animations settings
-        self.hit_path = '../resources/animations/attack/hit'
+        self.hit_path = 'resources/animations/attack/hit'
         self.hit_frames = 4
         self.hit_size = 16, 16
 
         self.ice_spell = {
             'name': 'ice spell',
-            'path': '../resources/animations/ice_shard/ice_spell',
+            'path': 'resources/animations/ice_shard/ice_spell',
             'frames': 11,
             'cost': 5,
             'speed': 30,
             'dmg':  1,
-            'sound': '../resources/wizard/ice_sound1.wav'
+            'sound': 'resources/wizard/ice_sound1.wav'
         }
         self.fire_spell = {
             'name': 'fireball',
-            'path': '../resources/animations/fireball/fireball',
+            'path': 'resources/animations/fireball/fireball',
             'frames': 8,
             'cost': 10,
             'speed': 20,
             'dmg': 2,
-            'sound': '../resources/wizard/fireball_sound1.wav'
+            'sound': 'resources/wizard/fireball_sound1.wav'
         }
         self.p_spell_size = 32, 32
 
