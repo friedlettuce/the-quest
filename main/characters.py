@@ -4,6 +4,7 @@ from pygame.sprite import Sprite
 from ui import UI, HoverHealth
 from weapon import Weapon, ProjectileSpell
 
+
 class Player(Sprite):
 
     def __init__(self, game_settings, screen, path):

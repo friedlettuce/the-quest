@@ -36,17 +36,17 @@ class Settings:
             'HP': 10,
             'MANA': 60,
             'MANAREGEN': .125,
-            'WEAPONS': ['g', 'r']
+            'WEAPONS': ['green_staff', 'red_staff']
         }
         self.knight = {
             'NAME': 'knight',
             'HP': 20,
-            'WEAPONS': ['bs', 'bh', 'ks']
+            'WEAPONS': ['big_sword', 'long_hammer', 'short_sword']
         }
         self.elf = {
             'NAME': 'elf',
             'HP': 15,
-            'WEAPONS': ['a', 'b', 'c', 'd']
+            'WEAPONS': ['axe', 'club', 'cleaver', 'rapier']
         }
         self.characters = [self.wizard, self.knight, self.elf]
 
@@ -81,21 +81,21 @@ class Settings:
         self.p_spell_size = 32, 32
 
     def setWeaponDamage(self, weapon):
-        if weapon == 'a':
+        if weapon == 'axe':
             return 5
-        elif weapon == 'b':
+        elif weapon == 'club':
             return 3
-        elif weapon == 'bh':
+        elif weapon == 'long_hammer':
             return 7
-        elif weapon == 'bs':
+        elif weapon == 'big_sword':
             return 6
-        elif weapon == 'c':
+        elif weapon == 'cleaver':
             return 5
-        elif weapon == 'd':
+        elif weapon == 'rapier':
             return 6
-        elif weapon == 'g':
+        elif weapon == 'green_staff':
             return 3
-        elif weapon == 'ks':
+        elif weapon == 'short_sword':
             return 8
-        elif weapon == 'r':
+        elif weapon == 'red_staff':
             return 3
