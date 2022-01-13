@@ -56,7 +56,7 @@ def run_game():
     else:
         player = characters.Hero(game_settings, screen, 'knight', weapon)
 
-    welc_screen.sound.stop()
+    pygame.mixer.music.unload()
     forrest = ForestBackground(game_settings, screen)
 
     while True:

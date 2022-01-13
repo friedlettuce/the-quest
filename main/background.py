@@ -10,8 +10,8 @@ class WelcomeScreen:
         self.background = Landscape(game_settings, screen,
                                     game_settings.forestFile)
 
-        self.sound = pygame.mixer.Sound('resources/backgrounds/Lost-Jungle.wav')
-        self.sound.play(10)
+        pygame.mixer.music.load('resources/backgrounds/Lost-Jungle.wav')
+        pygame.mixer.music.play(-1)
 
         large_text = pygame.font.SysFont('harrington', 75, True)
         self.text = large_text.render("Side Scroller", True, (128, 128, 128))
@@ -57,8 +57,8 @@ class ForestBackground:
             print("Path exists")
         else:
             print("Path non-existent")
-        self.sound = pygame.mixer.Sound('resources/backgrounds/nature1.wav')
-        self.sound.play(20)
+        pygame.mixer.music.load('resources/backgrounds/nature1.wav')
+        pygame.mixer.music.play(-1)
 
         self.moving_left = self.moving_right = False
         self.speed = 0

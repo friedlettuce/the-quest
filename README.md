@@ -8,6 +8,15 @@ www.soundimage.org
 by InspectorJ
 (www.jshaw.co.uk) of Freesound.org
 
+##### How to Play
+- Right arrow : move right
+- Left arrow : move left
+- Q : use weapon
+- V: toggle weapon
+###### (Wizard)
+- W : use spell
+- E : switch spell
+
 
 ##### TODO
 - Refactor ice spell / weapon / player
@@ -15,3 +24,7 @@ by InspectorJ
 - Add moving background
 - Add castle with fortifications
 - Add waves and progressively difficult random mob spawing
+
+##### Requirements
+- Pygame minimum version 2
+- Python3
